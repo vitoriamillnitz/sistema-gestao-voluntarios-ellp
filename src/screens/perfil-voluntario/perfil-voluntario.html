@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - ELLP</title>
+    
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <header class="header-voluntario">
+        <div class="container">
+            <div>
+                <a href="../dashboard-voluntario/dashboard-voluntario.html" class="nav-link">Meu Painel</a>
+                <button id="logout-btn" class="btn-logout">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="content">
+        <div class="container">
+            <div class="header">
+                <h1>Meu Perfil</h1>
+                <p>Visualize ou edite seus dados cadastrais.</p>
+            </div>
+
+            <form id="perfil-voluntario-form" class="profile-form">
+                <h2>Dados Cadastrais</h2>
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" value="Nome do Voluntário" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="ra">RA</label>
+                    <input type="text" id="ra" value="G123456" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="curso">Curso</label>
+                    <input type="text" id="curso" value="Engenharia de Software" disabled>
+                </div>
+                 <div class="form-group">
+                    <label for="periodo">Período</label>
+                    <input type="number" id="periodo" value="5" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" value="voluntario@alunos.utfpr.edu.br" disabled>
+                </div>
+                 <div class="form-group">
+                    <label for="telefone">Telefone</label>
+                    <input type="tel" id="telefone" value="(43) 98765-4321" disabled>
+                </div>
+                
+                <div class="actions">
+                    <button type="button" id="btn-editar" class="btn">Editar Dados</button>
+                    <button type="submit" id="btn-salvar" class="btn" style="display: none;">Salvar Alterações</button>
+                    <button type="button" id="btn-cancelar" class="btn btn-secondary" style="display: none;">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+        <footer>
+            <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
+            <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
+        </footer> 
+    </main>
+    
+    <script type="module" src=""></script>
+</body>
+</html>
