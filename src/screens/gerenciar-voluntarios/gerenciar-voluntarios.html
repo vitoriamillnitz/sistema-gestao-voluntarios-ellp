@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Voluntários - ELLP</title>
+    
+    <link rel="stylesheet" href="../../components/menuLateral/menuLateral.css"> 
+    <link rel="stylesheet" href="gerenciar-voluntarios.css"> 
+    <script type="module" src="gerenciar-voluntarios.js"></script>
+
+</head>
+<body>
+
+    <div id="menu-placeholder"></div>
+
+    <main class="content">
+        <div class="container">
+            <div class="header">
+                <h1>Gerenciar Voluntários</h1>
+                <p>Visualize e altere o status de todos os voluntários do projeto.</p>
+            </div>
+
+            <div class="table-controls">
+                <input type="search" id="search-voluntario" placeholder="Buscar por nome ou RA...">
+                <select id="filter-status">
+                    <option value="todos">Todos</option>
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table class="table" id="voluntarios-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>RA</th>
+                            <th>Curso</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Giovana Kaori</td>
+                            <td>123456</td>
+                            <td>Engenharia de Software</td>
+                            <td><span class="status-ativo">Ativo</span></td>
+                            <td class="actions">
+                                <a href="../detalhes-voluntario/detalhes-voluntario.html" class="btn-details">Detalhes</a>
+                                <button class="btn-deactivate">Desativar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vitória Millnitz</td>
+                            <td>678910</td>
+                            <td>Engenharia de Software</td>
+                            <td><span class="status-inativo">Inativo</span></td>
+                            <td class="actions">
+                                <a href="../detalhes-voluntario/detalhes-voluntario.html" class="btn-details">Detalhes</a>
+                                <button class="btn-activate">Ativar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    
+    <script type="module" src=""></script>
+
+     <footer>
+        <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
+        <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
+    </footer> 
+</body>
+</html>

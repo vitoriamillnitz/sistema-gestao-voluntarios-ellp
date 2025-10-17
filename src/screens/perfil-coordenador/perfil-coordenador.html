@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - ELLP</title>
+    
+    <link rel="stylesheet" href="../../components/menuLateral/menuLateral.css"> 
+    <link rel="stylesheet" href="perfil-coordenador.css"> 
+    <script type="module" src="perfil-coordenador.js"></script>
+</head>
+<body>
+
+    <div id="menu-placeholder"></div>
+
+    <main class="content">
+        <div class="container">
+            <div class="header">
+                <h1>Meu Perfil</h1>
+                <p>Visualize ou edite seus dados cadastrais e altere sua senha.</p>
+            </div>
+
+            <form id="perfil-coordenador-form" class="profile-form">
+                <h2>Dados Cadastrais</h2>
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" value="Nome do Coordenador" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="departamento">Curso/Departamento</label>
+                    <input type="text" id="departamento" value="Engenharia de Software" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" value="coordenador@utfpr.edu.br" disabled>
+                </div>
+
+                <hr>
+
+                <h2>Alterar Senha</h2>
+                <div class="form-group">
+                    <label for="nova-senha">Nova Senha</label>
+                    <input type="password" id="nova-senha" placeholder="Deixe em branco para não alterar" disabled>
+                </div>
+                 <div class="form-group">
+                    <label for="confirmar-senha">Confirmar Nova Senha</label>
+                    <input type="password" id="confirmar-senha" placeholder="Repita a nova senha" disabled>
+                </div>
+
+                <div class="actions">
+                    <button type="button" id="btn-editar" class="btn">Editar Dados</button>
+                    <button type="submit" id="btn-salvar" class="btn" style="display: none;">Salvar Alterações</button>
+                    <button type="button" id="btn-cancelar" class="btn btn-secondary" style="display: none;">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+        <footer>
+            <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
+            <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
+        </footer> 
+    </main>
+    
+    <script type="module" src=""></script>
+</body>
+</html>

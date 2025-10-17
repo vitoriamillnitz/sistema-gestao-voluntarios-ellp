@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gestão de Voluntários ELLP</title>
+    
+    <link rel="stylesheet" href="../../components/menuLateral/menuLateral.css"> 
+    <link rel="stylesheet" href="dashboard-coordenador.css"> 
+    <script type="module" src="dashboard-coordenador.js"></script>
+</head>
+<body>
+
+    <div id="menu-placeholder"></div>
+
+    <main class="content">
+        <div class="container">
+            <div class="header">
+                <h1>Dashboard do Coordenador</h1>
+                <p>Visão geral do projeto e acesso rápido às funcionalidades.</p>
+            </div>
+
+            <section class="stats-cards">
+                <div class="card">
+                    <h2>Voluntários Ativos</h2>
+                    <p id="total-voluntarios">--</p>
+                    <span class="card-footer">Total cadastrado no projeto</span>
+                </div>
+                <div class="card">
+                    <h2>Oficinas Realizadas</h2>
+                    <p id="total-oficinas">--</p>
+                    <span class="card-footer">Total de eventos cadastrados</span>
+                </div>
+                <div class="card">
+                    <h2>Total de Horas</h2>
+                    <p id="total-horas-projeto">--h</p>
+                    <span class="card-footer">Soma de todas as participações nesse semestre</span>
+                </div>
+            </section>
+
+            <section class="quick-actions">
+                <h2 class="section-title">Ações Rápidas</h2>
+                <div class="actions-container">
+                    <a href="../gerenciar-voluntarios/gerenciar-voluntarios.html" class="action-button">
+                        <span>➕</span> Gerenciar Voluntário
+                    </a>
+                    <a href="../gerenciar-oficinas/gerenciar-oficinas.html" class="action-button">
+                        <span>📅</span> Cadastrar Nova Oficina
+                    </a>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Próximas Oficinas</h2>
+                <div class="table-container">
+                    <table class="table" id="proximas-oficinas-table">
+                        <thead>
+                            <tr>
+                                <th>Nome da Oficina</th>
+                                <th>Data</th>
+                                <th>Carga Horária</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lógica de Programação com Blocos</td>
+                                <td>25/09/2025</td>
+                                <td>4h</td>
+                                <td>Agendada</td>
+                            </tr>
+                            <tr id="sem-oficinas-row">
+                                <td colspan="4" style="text-align: center;">Nenhuma oficina agendada.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script type="module" src=""></script>
+
+    <footer>
+        <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
+        <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
+    </footer> 
+</body>
+</html>

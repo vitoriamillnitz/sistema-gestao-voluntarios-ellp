@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Painel - ELLP</title>
+    
+    <link rel="stylesheet" href="dashboard-voluntario.css"> 
+    <script type="module" src="dashboard-voluntario.js"></script>
+</head>
+<body>
+
+    <header class="header-voluntario">
+        <div class="container">
+            <div class="logo">
+                <a href="#">Painel do Voluntário - ELLP</a>
+            </div>
+            <div>
+                <a href="../perfil-voluntario/perfil-voluntario.html" class="nav-link">Meu Perfil</a>
+                <button id="logout-btn" class="btn-logout">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="content">
+        <div class="container">
+            <div class="welcome-header">
+                <h1 id="welcome-message">Bem-vindo(a), [Nome do Voluntário]!</h1>
+                <p>Aqui você pode acompanhar sua participação e horas no projeto.</p>
+            </div>
+
+            <section class="stats-cards">
+                <div class="card">
+                    <h2>Oficinas Realizadas</h2>
+                    <p id="total-oficinas-realizadas">--</p>
+                </div>
+                <div class="card">
+                    <h2>Horas Acumuladas</h2>
+                    <p id="total-horas-acumuladas">--h</p>
+                </div>
+            </section>
+
+            <section class="history-block">
+                <h2>Meu Histórico de Participação</h2>
+                <div class="table-container">
+                    <table class="table" id="historico-table">
+                        <thead>
+                            <tr>
+                                <th>Nome da Oficina</th>
+                                <th>Data</th>
+                                <th>Carga Horária</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lógica de Programação com Blocos</td>
+                                <td>25/09/2025</td>
+                                <td>4h</td>
+                            </tr>
+                            <tr>
+                                <td>Introdução à Robótica com Arduino</td>
+                                <td>18/08/2025</td>
+                                <td>8h</td>
+                            </tr>
+                             <tr id="sem-historico-row" style="display: none;">
+                                <td colspan="3" style="text-align: center;">Você ainda não participou de nenhuma oficina.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
+        <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</

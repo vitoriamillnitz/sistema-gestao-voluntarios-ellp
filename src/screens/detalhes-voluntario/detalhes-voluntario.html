@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Voluntário - ELLP</title>
+    
+    <link rel="stylesheet" href="../../components/menuLateral/menuLateral.css"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="module" src="detalhes-voluntario.js"></script>
+    <link rel="stylesheet" href="detalhes-voluntario.css">
+</head>
+<body>
+
+    <div id="menu-placeholder"></div>
+
+    <main class="content">
+        <div class="container">
+            <div class="header">
+                <a href="../gerenciar-voluntarios/gerenciar-voluntarios.html" class="back-link">&larr; Voltar para a lista</a>
+                <h1>Detalhes de Giovana Kaori</h1>
+                <p>Informações completas, histórico e ações para o voluntário.</p>
+            </div>
+
+            <div class="details-grid">
+                
+                <div class="info-block">
+                    <h2>Informações Pessoais</h2>
+                    <dl>
+                        <dt>Nome Completo:</dt>
+                        <dd id="voluntario-nome">Giovana Kaori</dd>
+                        
+                        <dt>RA:</dt>
+                        <dd id="voluntario-ra">123456</dd>
+                        
+                        <dt>Curso:</dt>
+                        <dd id="voluntario-curso">Engenharia de Software</dd>
+                        
+                        <dt>Período:</dt>
+                        <dd id="voluntario-periodo">7º</dd>
+
+                        <dt>E-mail:</dt>
+                        <dd id="voluntario-email">giovana.kaori@alunos.utfpr.edu.br</dd>
+
+                        <dt>Telefone:</dt>
+                        <dd id="voluntario-telefone">(43) 99999-8888</dd>
+                        
+                        <dt>Data de Entrada:</dt>
+                        <dd id="voluntario-data-entrada">10/03/2024</dd>
+
+                        <dt>Status:</dt>
+                        <dd><span id="voluntario-status" class="status-ativo">Ativo</span></dd>
+                    </dl>
+                </div>
+
+                <div class="hours-block">
+                    <h2>Resumo de Horas</h2>
+                    <div class="card-total-horas">
+                        <p>Total Acumulado</p>
+                        <span id="total-horas-acumuladas">48h</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="history-block">
+                <h2>Histórico de Participação</h2>
+                <div class="table-container">
+                    <table class="table" id="historico-table">
+                        <thead>
+                            <tr>
+                                <th>Nome da Oficina</th>
+                                <th>Data</th>
+                                <th>Carga Horária</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lógica de Programação com Blocos</td>
+                                <td>25/09/2025</td>
+                                <td>4h</td>
+                            </tr>
+                            <tr>
+                                <td>Introdução à Robótica com Arduino</td>
+                                <td>18/08/2025</td>
+                                <td>8h</td>
+                            </tr>
+                             <tr>
+                                <td>Desenvolvimento de Apps para Iniciantes</td>
+                                <td>05/07/2025</td>
+                                <td>8h</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="btn-gerar-relatorio" class="btn">Gerar Relatório PDF</button>
+                <button id="btn-gerar-termo" class="btn">Gerar Termo de Voluntariado</button>
+            </div>
+            
+        </div>
+
+        <footer>
+            <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
+            <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
+        </footer> 
+    </main>
+    
+    <script type="module" src=""></script>
+</body>
+</html>

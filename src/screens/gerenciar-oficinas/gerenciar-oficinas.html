@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Oficinas - ELLP</title>
+    
+    <link rel="stylesheet" href="../../components/menuLateral/menuLateral.css"> 
+    <link rel="stylesheet" href="gerenciar-oficinas.css"> 
+    <script type="module" src="gerenciar-oficinas.js"></script>
+</head>
+<body>
+
+    <div id="menu-placeholder"></div>
+
+    <main class="content">
+        <div class="container">
+            <div class="header">
+                <h1>Gerenciar Oficinas</h1>
+                <button id="btn-nova-oficina" class="btn">+ Adicionar Nova Oficina</button>
+            </div>
+
+            <div class="table-container">
+                <table class="table" id="oficinas-table">
+                    <thead>
+                        <tr>
+                            <th>Nome da Oficina</th>
+                            <th>Data</th>
+                            <th>Carga Horária</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Introdução à Lógica com Scratch</td>
+                            <td>20/09/2025</td>
+                            <td>4h</td>
+                            <td class="actions">
+                                <a href="../registrar-presenca/registrar-presenca.html" class="btn-action btn-presenca">Registrar Presença</a>
+                                <button class="btn-action btn-edit">Editar</button>
+                                <button class="btn-action btn-delete">Excluir</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div id="oficina-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Adicionar Nova Oficina</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <form id="oficina-form">
+                <input type="hidden" id="oficina-id">
+                
+                <div class="form-group">
+                    <label for="nome-oficina">Nome da Oficina</label>
+                    <input type="text" id="nome-oficina" required>
+                </div>
+                <div class="form-group">
+                    <label for="data-oficina">Data de Realização</label>
+                    <input type="date" id="data-oficina" required>
+                </div>
+                <div class="form-group">
+                    <label for="carga-horaria">Carga Horária (em horas)</label>
+                    <input type="number" id="carga-horaria" min="1" required>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
+                    <button type="submit" class="btn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
+        <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
+    </footer> 
+
+    <script type="module" src=""></script>
+</body>
+</html>

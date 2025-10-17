@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Presença - ELLP</title>
+    
+    <link rel="stylesheet" href="../../components/menuLateral/menuLateral.css"> 
+    <link rel="stylesheet" href="registrar-presenca.css"> 
+    <script type="module" src="registrar-presenca.js"></script>
+</head>
+<body>
+
+    <div id="menu-placeholder"></div>
+
+    <main class="content">
+        <div class="container">
+            <div class="header">
+                <a href="../gerenciar-oficinas/gerenciar-oficinas.html" class="back-link">&larr; Voltar para Oficinas</a>
+                <h1>Registrar Presença em: <span id="nome-oficina">Introdução à Lógica com Scratch</span></h1>
+                <p>Selecione os voluntários que participaram desta oficina.</p>
+            </div>
+
+            <form id="presenca-form">
+                
+                <div class="select-all-container">
+                    <input type="checkbox" id="marcar-todos">
+                    <label for="marcar-todos">Marcar/Desmarcar Todos</label>
+                </div>
+
+                <ul class="lista-presenca">
+                    <li>
+                        <input type="checkbox" id="vol-1" name="voluntarios" value="id_giovana">
+                        <label for="vol-1">Giovana Kaori (123456)</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="vol-2" name="voluntarios" value="id_thaisse">
+                        <label for="vol-2">Thaisse Kirian Veiga (654321)</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="vol-3" name="voluntarios" value="id_brenda">
+                        <label for="vol-3">Brenda Beatriz Cristaldo (246810)</label>
+                    </li>
+                </ul>
+
+                <button type="submit" class="btn">Salvar Presenças</button>
+            </form>
+        </div>
+
+        <footer>
+            <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
+            <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
+        </footer> 
+    </main>
+    
+    <script type="module" src=""></script>
+</body>
+</html>
