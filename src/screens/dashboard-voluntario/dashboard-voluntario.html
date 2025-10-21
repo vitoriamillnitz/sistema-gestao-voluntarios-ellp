@@ -26,7 +26,7 @@
         <div class="container">
             <div class="welcome-header">
                 <h1 id="welcome-message">Bem-vindo(a), [Nome do Voluntário]!</h1>
-                <p>Aqui você pode acompanhar sua participação e horas no projeto.</p>
+                <p>Aqui você pode acompanhar sua participação e organizar suas tarefas.</p>
             </div>
 
             <section class="stats-cards">
@@ -36,10 +36,49 @@
                 </div>
                 <div class="card">
                     <h2>Horas Acumuladas</h2>
-                    <p id="total-horas-acumuladas">--h</p>
+                    <p id="total-horas-acumuladas">--</p>
                 </div>
             </section>
 
+            <section class="agenda-block">
+                <h2>Minha Agenda</h2>
+                <p>Cadastre tarefas pessoais para se organizar melhor no projeto.</p>
+                
+                <form id="nova-tarefa-form" class="form-agenda">
+                    <input type="text" id="descricao-tarefa" placeholder="Descrição da nova tarefa" required>
+                    <input type="date" id="data-tarefa" required>
+                    <button type="submit" class="btn-add-tarefa">Adicionar</button>
+                </form>
+
+                <div class="lista-tarefas-container">
+                    <h3>Tarefas Pendentes</h3>
+                    <ul id="lista-tarefas">
+                        <li>
+                            <div class="tarefa-info">
+                                <span class="tarefa-descricao">Preparar material para a oficina de Scratch</span>
+                                <span class="tarefa-data">Vencimento: 28/09/2025</span>
+                            </div>
+                            <div class="tarefa-actions">
+                                <button class="btn-action btn-concluir">Concluir</button>
+                                <button class="btn-action btn-excluir">Excluir</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="tarefa-info">
+                                <span class="tarefa-descricao">Enviar e-mail de lembrete para o grupo</span>
+                                <span class="tarefa-data">Vencimento: 30/09/2025</span>
+                            </div>
+                            <div class="tarefa-actions">
+                                <button class="btn-action btn-concluir">Concluir</button>
+                                <button class="btn-action btn-excluir">Excluir</button>
+                            </div>
+                        </li>
+                         <li id="sem-tarefas-row" style="display: none;">
+                            <p>Você não tem tarefas pendentes. Adicione uma acima!</p>
+                        </li>
+                    </ul>
+                </div>
+            </section>
             <section class="history-block">
                 <h2>Meu Histórico de Participação</h2>
                 <div class="table-container">
@@ -52,20 +91,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Lógica de Programação com Blocos</td>
-                                <td>25/09/2025</td>
-                                <td>4h</td>
-                            </tr>
-                            <tr>
-                                <td>Introdução à Robótica com Arduino</td>
-                                <td>18/08/2025</td>
-                                <td>8h</td>
-                            </tr>
-                             <tr id="sem-historico-row" style="display: none;">
-                                <td colspan="3" style="text-align: center;">Você ainda não participou de nenhuma oficina.</td>
-                            </tr>
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </section>
@@ -74,4 +100,8 @@
     
     <footer>
         <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
-        <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</
+        <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
+    </footer> 
+
+</body>
+</html>
