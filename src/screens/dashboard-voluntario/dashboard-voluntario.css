@@ -1,0 +1,352 @@
+/* Importação da fonte Poppins e definição de variáveis de cores */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --color-primary: #5D3FD3; /* Roxo Escuro */
+    --color-secondary: #FF7F11; /* Laranja Vibrante */
+    --color-background: #F5F5F5;
+    --color-text-dark: #333;
+    --color-text-light: #FFF;
+    --color-success: #28a745;
+    --color-danger: #dc3545;
+}
+
+/* -------------------------------------- */
+/* 0. Estilos Globais e Reset */
+/* -------------------------------------- */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-background);
+    margin: 0;
+    color: var(--color-text-dark);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* -------------------------------------- */
+/* 1. Header Superior (Voluntário) */
+/* -------------------------------------- */
+.header-voluntario {
+    background-color: var(--color-primary); /* Roxo */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-secondary); /* Laranja */
+    text-decoration: none;
+}
+
+.nav-voluntario {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-link {
+    color: var(--color-text-light);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: var(--color-secondary);
+}
+
+.nav-link i {
+    margin-right: 8px;
+}
+
+.btn-logout {
+    background-color: transparent;
+    color: var(--color-text-light);
+    border: 1px solid var(--color-secondary);
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+}
+.btn-logout i {
+    margin-right: 5px;
+}
+
+/* -------------------------------------- */
+/* 2. Conteúdo Principal e Títulos */
+/* -------------------------------------- */
+.content {
+    padding: 40px 0;
+}
+
+.welcome-header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.welcome-header h1 {
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 5px;
+}
+
+.welcome-header p {
+    color: #666;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    color: var(--color-text-dark);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.section-subtitle {
+    color: #888;
+    margin-bottom: 25px;
+}
+
+
+/* -------------------------------------- */
+/* 3. Cards de Estatísticas (Destaque) */
+/* -------------------------------------- */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.metric-card {
+    background-color: var(--color-text-light);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-left: 5px solid #ccc; /* Cor neutra para o card secundário */
+}
+
+/* Destaque Maior para Horas Acumuladas */
+.hours-highlight {
+    background-color: var(--color-primary); /* Roxo */
+    border-left-color: var(--color-secondary); /* Laranja */
+    color: var(--color-text-light);
+}
+
+.hours-highlight .metric-value, 
+.hours-highlight .card-icon {
+    color: var(--color-secondary) !important; /* Força o laranja no ícone e valor */
+}
+
+.metric-card h2 {
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: 600;
+    color: inherit; /* Herdando cor do card */
+}
+
+.metric-card.secondary-metric h2 {
+    color: var(--color-text-dark); /* Texto escuro para card secundário */
+}
+
+.metric-value {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-primary); /* Roxo para valores no card secundário */
+    line-height: 1;
+}
+
+.card-icon {
+    font-size: 3rem;
+    color: var(--color-primary);
+    padding-right: 15px;
+    border-right: 1px solid #eee;
+}
+
+.hours-highlight .card-icon {
+    border-right-color: rgba(255, 255, 255, 0.3); /* Linha divisória branca sutil */
+}
+
+/* -------------------------------------- */
+/* 4. Minha Agenda (Lista de Tarefas) */
+/* -------------------------------------- */
+.agenda-block {
+    background-color: var(--color-text-light);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 40px;
+}
+
+.form-agenda {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.form-agenda input[type="text"],
+.form-agenda input[type="date"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+
+.btn-add-tarefa {
+    background-color: var(--color-secondary);
+    color: var(--color-text-light);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-add-tarefa:hover {
+    background-color: #e56a00;
+}
+
+.btn-add-tarefa i {
+    margin-right: 5px;
+}
+
+.lista-tarefas-container h3 {
+    font-size: 1.2rem;
+    color: var(--color-primary);
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--color-secondary);
+    padding-bottom: 5px;
+    display: inline-block;
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.tarefa-descricao {
+    font-weight: 500;
+    color: var(--color-text-dark);
+    display: block;
+}
+
+.tarefa-data {
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.tarefa-actions button {
+    margin-left: 8px;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.btn-concluir {
+    background-color: var(--color-success);
+    color: var(--color-text-light);
+}
+
+.btn-excluir {
+    background-color: var(--color-danger);
+    color: var(--color-text-light);
+}
+
+.btn-action i {
+    margin: 0;
+}
+
+/* -------------------------------------- */
+/* 5. Histórico de Participação (Tabela) */
+/* -------------------------------------- */
+.history-block h2 {
+    color: var(--color-text-dark);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.table-container {
+    background-color: var(--color-text-light);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.table thead th {
+    background-color: var(--color-background);
+    color: var(--color-primary); /* Roxo */
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.table tbody tr:hover {
+    background-color: #fcfcfc;
+}
+
+/* -------------------------------------- */
+/* 6. Footer */
+/* -------------------------------------- */
+.main-footer {
+    width: 100%;
+    padding: 15px 40px;
+    
+    /* ALTERAÇÃO AQUI: Mudar de var(--color-primary) para var(--color-secondary) */
+    background-color: var(--color-secondary); /* Laranja Vibrante */
+    
+    /* Ajustamos a cor do texto para ser escura ou branca, dependendo do contraste */
+    color: var(--color-text-light); /* Mantém o texto em branco para contraste */
+    
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}

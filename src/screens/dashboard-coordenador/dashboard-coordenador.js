@@ -27,6 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalOficinasEl = document.getElementById('total-oficinas');
     const totalHorasProjetoEl = document.getElementById('total-horas-projeto');
     const tabelaOficinasTbody = document.querySelector('#proximas-oficinas-table tbody');
+    // NOVO: Seleção do botão de Logout
+    const logoutBtn = document.getElementById('logout-btn');
+
 
     // =================================================================
     // 3. FUNÇÕES PARA RENDERIZAR OS DADOS
@@ -74,21 +77,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Para cada oficina agendada, cria uma nova linha na tabela
         proximasOficinas.forEach(oficina => {
+            // NOTA: A data precisa ser formatada corretamente. O JS usará '2025-10-25T00:00:00'
             const dataFormatada = new Date(oficina.data + 'T00:00:00').toLocaleDateString('pt-BR');
 
             const linha = document.createElement('tr');
+            // A classe 'status status-scheduled' seria ideal aqui no <td>
             linha.innerHTML = `
                 <td>${oficina.nome}</td>
                 <td>${dataFormatada}</td>
                 <td>${oficina.cargaHoraria}h</td>
-                <td>${oficina.status}</td>
+                <td class="status status-scheduled">${oficina.status}</td>
             `;
             tabelaOficinasTbody.appendChild(linha);
         });
     }
 
     // =================================================================
-    // 4. EXECUÇÃO INICIAL
+    // 4. LÓGICA DE LOGOUT (NOVO)
+    // =================================================================
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            // 1. Simulação de limpeza de sessão (opcional)
+            // localStorage.removeItem('authToken'); 
+            
+            // 2. Feedback
+            alert('Logout simulado! Redirecionando para a página de login.');
+
+            // 3. Redirecionamento (ajustado para sair da pasta do coordenador)
+            window.location.href = '../login/login.html'; 
+        });
+    }
+
+    // =================================================================
+    // 5. EXECUÇÃO INICIAL
     // Chama as funções para popular a página assim que ela carrega.
     // =================================================================
     

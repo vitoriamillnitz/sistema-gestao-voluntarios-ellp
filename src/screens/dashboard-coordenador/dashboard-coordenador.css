@@ -19,6 +19,7 @@
 }
 
 html, body {
+    /* Essencial para que min-height: 100vh funcione corretamente */
     height: 100%; 
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
@@ -32,14 +33,15 @@ html, body {
 /* -------------------------------------- */
 .main-layout {
     display: flex;
-    min-height: 100vh;
-    position: relative; /* Para o footer, se estiver fora do fluxo */
+    /* Alinhamos todo o layout (sidebar + content) para a altura total da tela */
+    min-height: 100vh; 
+    position: relative; 
 }
 
 .content {
     flex-grow: 1;
     padding: 30px 40px;
-    padding-bottom: 70px; /* Espaço para o footer se ele for fixo/estiver fora do layout */
+    padding-bottom: 70px; /* Margem para o footer que está fora do main-layout */
 }
 
 .container {
@@ -48,16 +50,19 @@ html, body {
 }
 
 /* -------------------------------------- */
-/* 2. Menu Lateral (Sidebar) - REVISADO */
+/* 2. Menu Lateral (Sidebar) - CORRIGIDO INTEGRALMENTE */
 /* -------------------------------------- */
 .sidebar {
     width: 250px;
     background-color: var(--color-primary);
     color: var(--color-text-light);
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    
+    /* REGRAS CRUCIAIS PARA PREENCHIMENTO E POSICIONAMENTO */
     min-height: 100vh;
-    position: sticky; /* Mantém a sidebar visível durante o scroll */
-    top: 0;
+    position: sticky; 
+    top: 0; /* Começa no topo */
+    
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -75,13 +80,13 @@ html, body {
     font-weight: 700;
     color: var(--color-secondary);
     margin: 0;
-    padding-top: 30px; /* ADICIONADO: Espaço no topo para a logo */
-    display: block; /* Garante que o padding funcione */
+    padding-top: 30px; /* Espaço no topo para a logo */
+    display: block;
 }
 
 /* Estilo da Navegação */
 .sidebar-nav {
-    flex-grow: 1;
+    flex-grow: 1; /* Permite que o menu ocupe o espaço restante */
 }
 
 .sidebar-nav ul {
@@ -97,7 +102,7 @@ html, body {
 .sidebar-nav a {
     display: flex;
     align-items: center;
-    padding: 10px 20px; /* Padding lateral consistente com o header */
+    padding: 10px 20px;
     color: var(--color-text-light);
     text-decoration: none;
     transition: background-color 0.3s ease;
@@ -105,15 +110,15 @@ html, body {
 }
 
 .sidebar-nav a i {
-    margin-right: 12px; /* Espaço entre ícone e texto */
+    margin-right: 12px;
     font-size: 1.1rem;
 }
 
 /* Destaque do Item Ativo e Hover */
 .sidebar-nav li.active a {
     background-color: var(--color-active-bg);
-    border-left: 5px solid var(--color-secondary); /* Linha lateral Laranja */
-    padding-left: 15px; /* Compensa a borda no padding */
+    border-left: 5px solid var(--color-secondary);
+    padding-left: 15px;
 }
 
 .sidebar-nav a:hover:not(.active a) {
@@ -147,6 +152,8 @@ html, body {
 .btn-logout i {
     margin-right: 8px;
 }
+/* FIM DOS ESTILOS DA BARRA LATERAL */
+
 
 /* -------------------------------------- */
 /* 3. Estilos do Header e Títulos */
@@ -159,7 +166,7 @@ html, body {
 
 .header h1 {
     font-size: 2rem;
-    color: var(--color-primary);
+    color: var(--color-primary); 
     margin-bottom: 5px;
 }
 
@@ -175,7 +182,7 @@ html, body {
 }
 
 /* -------------------------------------- */
-/* 4. Cards de Estatísticas (Metrics) - REVISADO PARA HARMONIA */
+/* 4. Cards de Estatísticas (Metrics) */
 /* -------------------------------------- */
 .stats-cards {
     display: grid;
@@ -189,11 +196,9 @@ html, body {
     padding: 25px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    
     display: flex;
     align-items: center;
-    gap: 15px; /* Reduzido o espaçamento principal */
-
+    gap: 15px;
     border-left: 5px solid var(--color-secondary);
 }
 
@@ -203,10 +208,10 @@ html, body {
 
 
 .card-icon {
-    font-size: 2.8rem; /* Aumentar o ícone para equilíbrio */
+    font-size: 2.8rem; 
     color: var(--color-secondary);
     padding-right: 15px;
-    border-right: 1px solid #eee; /* Linha separadora sutil */
+    border-right: 1px solid #eee;
 }
 
 .metric-card > div {
@@ -218,7 +223,7 @@ html, body {
 
 .metric-card h2 {
     font-size: 1rem;
-    color: var(--color-text-dark);
+    color: var(--color-text-dark); 
     margin: 0;
     font-weight: 600;
     line-height: 1.2;
@@ -241,7 +246,6 @@ html, body {
     border-top: 1px solid #eee;
     line-height: 1.3;
 }
-
 
 /* -------------------------------------- */
 /* 5. Ações Rápidas */
@@ -274,12 +278,12 @@ html, body {
 }
 
 .primary-action {
-    background-color: var(--color-primary);
+    background-color: var(--color-primary); 
     color: var(--color-text-light);
 }
 
 .secondary-action {
-    background-color: var(--color-secondary);
+    background-color: var(--color-secondary); 
     color: var(--color-text-light);
 }
 
@@ -289,7 +293,7 @@ html, body {
 
 
 /* -------------------------------------- */
-/* 6. Estilo da Tabela */
+/* 7. Estilo da Tabela */
 /* -------------------------------------- */
 .section {
     margin-top: 40px;
@@ -331,12 +335,19 @@ html, body {
     font-weight: 600;
 }
 
-/* Estilo do Footer Principal */
+/* -------------------------------------- */
+/* 8. Footer Principal */
+/* -------------------------------------- */
 .main-footer {
     width: 100%;
     padding: 15px 40px;
-    background-color: var(--color-primary);
-    color: rgba(255, 255, 255, 0.7);
+    
+    /* ALTERAÇÃO AQUI: Mudar de var(--color-primary) para var(--color-secondary) */
+    background-color: var(--color-secondary); /* Laranja Vibrante */
+    
+    /* Ajustamos a cor do texto para ser escura ou branca, dependendo do contraste */
+    color: var(--color-text-light); /* Mantém o texto em branco para contraste */
+    
     text-align: center;
     font-size: 0.75rem;
     line-height: 1.4;

@@ -1,0 +1,401 @@
+/* Importação da fonte Poppins e definição de variáveis de cores */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --color-primary: #5D3FD3; /* Roxo Escuro */
+    --color-secondary: #FF7F11; /* Laranja Vibrante */
+    --color-background: #F5F5F5; 
+    --color-text-dark: #333;
+    --color-text-light: #FFF;
+    --color-active-bg: #4933a6;
+    --color-success-status: #28a745; 
+    --color-info-status: #007bff;
+}
+
+/* -------------------------------------- */
+/* 0. Estilos Globais e Reset (CORRIGIDO PARA ALTURA) */
+/* -------------------------------------- */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    /* Essencial para que min-height: 100vh funcione */
+    height: 100%; 
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-background);
+    margin: 0;
+    color: var(--color-text-dark);
+}
+
+/* -------------------------------------- */
+/* 1. Layout Principal (Menu + Conteúdo) */
+/* -------------------------------------- */
+.main-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 30px 40px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* -------------------------------------- */
+/* 2. Menu Lateral (Sidebar) - INTEGRADO E CORRIGIDO */
+/* -------------------------------------- */
+/* INÍCIO: Estilos do Menu Lateral (Garantindo que a barra funcione) */
+.sidebar {
+    width: 250px;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    
+    min-height: 100vh; /* CORREÇÃO 1: Preencher a altura total */
+    position: sticky; /* CORREÇÃO 2: Manter visível no scroll */
+    top: 0;
+    
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+
+.sidebar-header .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+    margin: 0;
+    padding-top: 30px; 
+    display: block;
+}
+
+.sidebar-nav {
+    flex-grow: 1; 
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav li {
+    margin-bottom: 5px;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    color: var(--color-text-light);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.sidebar-nav a i {
+    margin-right: 12px;
+    font-size: 1.1rem;
+}
+
+.sidebar-nav li.active a {
+    background-color: var(--color-active-bg);
+    border-left: 5px solid var(--color-secondary); 
+    padding-left: 15px;
+}
+
+.sidebar-nav a:hover:not(.active a) {
+    background-color: var(--color-active-bg);
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-logout {
+    /* ... (Estilos do botão logout) ... */
+    background-color: transparent;
+    color: var(--color-text-light);
+    border: 1px solid var(--color-secondary);
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+.btn-logout:hover {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+}
+.btn-logout i {
+    margin-right: 8px;
+}
+/* FIM: Estilos do Menu Lateral */
+
+
+/* -------------------------------------- */
+/* 3. Header da Página */
+/* -------------------------------------- */
+.header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: var(--color-primary);
+    margin-bottom: 5px;
+}
+
+.header p {
+    color: #888;
+}
+
+.back-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.2s;
+}
+.back-link:hover {
+    opacity: 0.8;
+}
+
+/* -------------------------------------- */
+/* 4. Grid de Detalhes (Info Pessoal + Horas) */
+/* -------------------------------------- */
+.details-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; 
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background-color: var(--color-text-light);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.info-block h2, .hours-block h2 {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Lista de Dados (dl) */
+.data-list dt {
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-top: 10px;
+    font-size: 0.95rem;
+}
+
+.data-list dd {
+    margin-left: 0;
+    margin-bottom: 15px;
+    color: #666;
+    border-bottom: 1px dashed #f0f0f0;
+    padding-bottom: 5px;
+}
+
+.data-list dd:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/* Status Ativo/Inativo */
+.status-active {
+    font-weight: 600;
+    color: var(--color-success-status);
+}
+
+/* -------------------------------------- */
+/* 5. Bloco de Horas e Ações (Hours Block) */
+/* -------------------------------------- */
+.hours-highlight-card {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+}
+
+.hours-block h2 {
+    color: var(--color-secondary); 
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+    width: 100%;
+}
+
+.card-total-horas {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hours-icon {
+    font-size: 3rem;
+    color: var(--color-secondary);
+    margin-bottom: 10px;
+}
+
+.hours-value {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.hours-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Ações de Documentos (Botões) */
+.action-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Botão Primário (Termo) - Laranja */
+.btn-primary-icon {
+    background-color: var(--color-secondary);
+    color: var(--color-text-light);
+    border: none;
+}
+.btn-primary-icon:hover {
+    background-color: #e56a00;
+}
+
+/* Botão Secundário (Relatório) - Roxo */
+.btn-secondary-icon {
+    background-color: transparent;
+    color: var(--color-secondary);
+    border: 2px solid var(--color-secondary);
+}
+.btn-secondary-icon:hover {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+}
+
+
+/* -------------------------------------- */
+/* 6. Histórico de Participação (Tabela) */
+/* -------------------------------------- */
+.history-block {
+    margin-top: 40px;
+}
+
+.history-block h2 {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    margin-bottom: 20px;
+}
+
+.table-container {
+    background-color: var(--color-text-light);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.table thead th {
+    background-color: var(--color-background);
+    color: var(--color-primary); 
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.table tbody tr:hover {
+    background-color: #fcfcfc;
+}
+
+/* -------------------------------------- */
+/* 7. Footer Principal (Reutilizado) */
+/* -------------------------------------- */
+.main-footer {
+    width: 100%;
+    padding: 15px 40px;
+    
+    /* ALTERAÇÃO AQUI: Mudar de var(--color-primary) para var(--color-secondary) */
+    background-color: var(--color-secondary); /* Laranja Vibrante */
+    
+    /* Ajustamos a cor do texto para ser escura ou branca, dependendo do contraste */
+    color: var(--color-text-light); /* Mantém o texto em branco para contraste */
+    
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* -------------------------------------- */
+/* 8. Responsividade */
+/* -------------------------------------- */
+@media (max-width: 900px) {
+    .details-grid {
+        grid-template-columns: 1fr; 
+    }
+    .content {
+        padding: 30px 20px;
+    }
+}

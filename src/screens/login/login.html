@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <link rel="stylesheet" href="login.css"/>
     <script type="module" src="login.js"></script>
 
-    <title>Login - Gestão de Voluntários ELLP</title>
+    <title>Login - Volluntariado</title>
     
 </head>
 <body>
 
     <main class="login-container">
-        <div></div>
         <div class="login-box">
-            <h1>Gestão de Voluntários ELLP</h1>
-            <p>Acesse sua conta</p>
+            <h1 class="logo">Volluntariado</h1> 
+            <p class="subtitle">Acesse sua conta</p>
 
             <form id="login-form">
                 <div class="form-group">
@@ -29,20 +33,17 @@
 
                 <div id="login-error-message" class="error-text"></div> 
 
-                <button type="submit" class="btn">Entrar</button>
+                <button type="submit" class="btn btn-primary">Entrar</button>
                 
                 <div class="links">
                     <a href="../recuperar-senha/recuperar-senha.html">Esqueceu a senha?</a>
-                    <a href="../cadastro-coordenador/cadastro-coordenador.html">Ir para o cadastro</a>
+                    <span> | </span> <a href="../cadastro-coordenador/cadastro-coordenador.html">Ir para o cadastro</a>
                 </div>
             </form>
         </div>
     </main>
 
-    <script type="module" src=""></script>
-
-    <footer>
-        <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
+    <footer class="login-footer"> <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
         <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
     </footer> 
 

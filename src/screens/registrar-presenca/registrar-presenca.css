@@ -1,0 +1,209 @@
+/* Importação da fonte Poppins e definição de variáveis de cores */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --color-primary: #5D3FD3; /* Roxo Escuro */
+    --color-secondary: #FF7F11; /* Laranja Vibrante */
+    --color-background: #F5F5F5;
+    --color-text-dark: #333;
+    --color-text-light: #FFF;
+    --color-active-bg: #4933a6;
+    --color-success: #28a745;
+}
+
+/* -------------------------------------- */
+/* 0. Estilos Globais e Layout Base */
+/* -------------------------------------- */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%; 
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-background);
+    margin: 0;
+    color: var(--color-text-dark);
+}
+
+.main-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 30px 40px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* -------------------------------------- */
+/* 1. Header da Página */
+/* -------------------------------------- */
+.header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.header h1 {
+    font-size: 1.8rem; /* Um pouco menor para acomodar o texto da oficina */
+    color: var(--color-primary);
+    margin: 0;
+}
+
+.header p {
+    color: #888;
+}
+
+.back-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.2s;
+}
+.back-link:hover {
+    opacity: 0.8;
+}
+
+/* -------------------------------------- */
+/* 2. Formulário de Presença (Card Central) */
+/* -------------------------------------- */
+.presenca-card {
+    background-color: var(--color-text-light);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    max-width: 650px; /* Foca o formulário */
+    margin: 0 auto;
+}
+
+.lista-presenca {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid #eee;
+    margin-bottom: 25px;
+}
+
+.presenca-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.presenca-item label {
+    font-weight: 500;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-left: 10px; /* Espaço entre o checkbox e o nome */
+}
+
+/* -------------------------------------- */
+/* 3. Estilização do Checkbox Customizado */
+/* -------------------------------------- */
+/* Esconde o checkbox nativo */
+.custom-checkbox {
+    /* Usaremos esta classe nos inputs checkbox no HTML */
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    background-color: var(--color-background);
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.2s;
+}
+
+/* Estado de Foco */
+.custom-checkbox:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(93, 63, 211, 0.3); /* Sombra suave roxa */
+}
+
+/* Estado Marcado */
+.custom-checkbox:checked {
+    background-color: var(--color-secondary); /* Laranja */
+    border-color: var(--color-secondary);
+}
+
+/* O "V" do checkbox */
+.custom-checkbox:checked::after {
+    content: '\f00c'; /* Código do ícone check do Font Awesome */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: var(--color-text-light);
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Estilo do Seletor Marcar/Desmarcar Todos */
+.select-all-container {
+    padding: 15px 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--color-primary); /* Linha divisória roxa */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.select-all-container label {
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+
+/* -------------------------------------- */
+/* 4. Botão de Ação */
+/* -------------------------------------- */
+.btn {
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Botão Primário: Salvar Presenças (Laranja) */
+.btn-primary {
+    background-color: var(--color-secondary);
+    color: var(--color-text-light);
+}
+.btn-primary:hover {
+    background-color: #e56a00;
+}
+
+
+/* -------------------------------------- */
+/* 5. Footer Principal (Reutilizado) */
+/* -------------------------------------- */
+.main-footer {
+    width: 100%;
+    padding: 15px 40px;
+    background-color: var(--color-primary);
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}

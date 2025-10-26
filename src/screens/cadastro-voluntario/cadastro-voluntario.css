@@ -1,0 +1,203 @@
+/* Importação da fonte Poppins e definição de variáveis de cores */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --color-primary: #5D3FD3; /* Roxo Escuro */
+    --color-secondary: #FF7F11; /* Laranja Vibrante */
+    --color-background: #F5F5F5;
+    --color-text-dark: #333;
+    --color-error: #dc3545;
+}
+
+/* Estilos Globais e de Fundo */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Alinha ao topo, permitindo scroll se necessário */
+    align-items: center;
+    min-height: 100vh;
+    color: var(--color-text-dark);
+}
+
+/* Container Principal e Card de Cadastro */
+.cadastro-container {
+    flex-grow: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinha ao topo do container para evitar quebras */
+    width: 100%;
+    padding: 40px 20px; /* Mais padding para o topo e laterais */
+}
+
+.cadastro-box {
+    background-color: #FFF;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 500px; /* Mantém largura consistente com o cadastro do coordenador */
+    width: 100%;
+}
+
+/* Estilo do Logo e Títulos */
+.cadastro-box .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+    margin-bottom: 5px;
+}
+
+.cadastro-box .subtitle {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+.cadastro-box .instruction-text {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* Estilo do Formulário */
+.form-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: var(--color-primary);
+    outline: none;
+}
+
+/* Requisitos de Senha */
+.password-requirements {
+    background-color: var(--color-background);
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.password-requirements p {
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 8px;
+}
+
+.password-requirements ul {
+    list-style: none;
+    padding-left: 0;
+    font-size: 0.9rem;
+}
+
+.password-requirements li {
+    color: #666;
+    line-height: 1.6;
+}
+
+.password-requirements li i {
+    color: var(--color-secondary);
+    margin-right: 8px;
+}
+
+/* Estilo do Botão Principal (Enviar Cadastro) */
+.btn-primary {
+    background-color: var(--color-secondary);
+    color: #FFF;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.btn-primary:hover {
+    background-color: #e56a00;
+}
+
+.btn-primary i {
+    margin-right: 8px;
+}
+
+/* Links (Login) */
+.links {
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.links a {
+    color: var(--color-primary); 
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.links a:hover {
+    text-decoration: underline;
+    color: #4933a6;
+}
+
+.links a i {
+    margin-right: 5px;
+}
+
+/* Mensagem de Erro */
+.error-group {
+    min-height: 20px;
+    margin-bottom: 15px;
+}
+.error-text {
+    color: var(--color-error);
+    font-size: 0.9rem;
+    text-align: left;
+    margin-top: 5px;
+}
+
+/* Estilo do Footer */
+.login-footer {
+    width: 100%;
+    padding: 15px 0;
+    background-color: var(--color-primary); 
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    /* Garante que o footer apareça corretamente após o conteúdo longo */
+    margin-top: 20px; 
+}

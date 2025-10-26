@@ -25,6 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnSalvar = document.getElementById('btn-salvar');
     const btnCancelar = document.getElementById('btn-cancelar');
     
+    // NOVO: Seleção do botão de Logout
+    const logoutBtn = document.getElementById('logout-btn');
+
+
     // =================================================================
     // 3. FUNÇÕES DE CONTROLE DE MODO (VISUALIZAÇÃO/EDIÇÃO)
     // =================================================================
@@ -104,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('As senhas não coincidem!');
                 return;
             }
+            // Validação de segurança (o seu requisito original era maior, mas 6 é um bom mínimo)
             if (novaSenha.length < 6) {
                 alert('A nova senha deve ter no mínimo 6 caracteres.');
                 return;
@@ -125,10 +130,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Retorna para o modo de visualização
         sairModoEdicao();
     });
+    
+    // NOVO: Lógica do botão de Sair (Funcionalidade de Logout)
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            alert('Logout simulado! Redirecionando para a página de login.');
+            // Redirecionamento para a página de login
+            window.location.href = '../login/login.html'; 
+        });
+    }
+
 
     // =================================================================
     // 5. EXECUÇÃO INICIAL
     // =================================================================
     carregarDados();
+    // Garante que a página inicie em modo visualização
+    sairModoEdicao(); 
 
 });

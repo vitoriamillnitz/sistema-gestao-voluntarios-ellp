@@ -3,84 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Painel - ELLP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <title>Meu Painel - Volluntariado</title>
     
     <link rel="stylesheet" href="dashboard-voluntario.css"> 
-    <script type="module" src="dashboard-voluntario.js"></script>
 </head>
 <body>
 
     <header class="header-voluntario">
-        <div class="container">
+        <div class="container header-content">
             <div class="logo">
-                <a href="#">Painel do Voluntário - ELLP</a>
+                <a href="#" class="logo-text">Volluntariado</a>
             </div>
-            <div>
-                <a href="../perfil-voluntario/perfil-voluntario.html" class="nav-link">Meu Perfil</a>
-                <button id="logout-btn" class="btn-logout">Sair</button>
-            </div>
+            <nav class="nav-voluntario">
+                <a href="../perfil-voluntario/perfil-voluntario.html" class="nav-link"><i class="fas fa-user-circle"></i> Meu Perfil</a>
+                <button id="logout-btn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Sair</button>
+            </nav>
         </div>
     </header>
 
     <main class="content">
         <div class="container">
             <div class="welcome-header">
-                <h1 id="welcome-message">Bem-vindo(a), [Nome do Voluntário]!</h1>
-                <p>Aqui você pode acompanhar sua participação e organizar suas tarefas.</p>
+                <h1 id="welcome-message">Bem-vindo(a), Ana Luiza!</h1>
+                <p>Aqui você pode acompanhar seu progresso e organizar suas tarefas no projeto.</p>
             </div>
 
             <section class="stats-cards">
-                <div class="card">
-                    <h2>Oficinas Realizadas</h2>
-                    <p id="total-oficinas-realizadas">--</p>
+                <div class="card metric-card secondary-metric">
+                    <i class="fas fa-chalkboard-teacher card-icon"></i>
+                    <div>
+                        <p id="total-oficinas-realizadas" class="metric-value">18</p>
+                        <h2>Oficinas Realizadas</h2>
+                    </div>
                 </div>
-                <div class="card">
-                    <h2>Horas Acumuladas</h2>
-                    <p id="total-horas-acumuladas">--</p>
+                
+                <div class="card metric-card primary-metric hours-highlight">
+                    <i class="fas fa-hourglass-half card-icon"></i>
+                    <div>
+                        <p id="total-horas-acumuladas" class="metric-value">55h</p>
+                        <h2>Horas Acumuladas</h2>
+                    </div>
                 </div>
             </section>
 
             <section class="agenda-block">
-                <h2>Minha Agenda</h2>
-                <p>Cadastre tarefas pessoais para se organizar melhor no projeto.</p>
+                <h2 class="section-title">Minha Agenda</h2>
+                <p class="section-subtitle">Cadastre tarefas pessoais para se organizar melhor no projeto.</p>
                 
                 <form id="nova-tarefa-form" class="form-agenda">
                     <input type="text" id="descricao-tarefa" placeholder="Descrição da nova tarefa" required>
                     <input type="date" id="data-tarefa" required>
-                    <button type="submit" class="btn-add-tarefa">Adicionar</button>
+                    <button type="submit" class="btn-primary btn-add-tarefa"><i class="fas fa-plus"></i> Adicionar Tarefa</button>
                 </form>
 
                 <div class="lista-tarefas-container">
                     <h3>Tarefas Pendentes</h3>
-                    <ul id="lista-tarefas">
-                        <li>
+                    <ul id="lista-tarefas" class="task-list">
+                        <li class="task-item">
                             <div class="tarefa-info">
                                 <span class="tarefa-descricao">Preparar material para a oficina de Scratch</span>
                                 <span class="tarefa-data">Vencimento: 28/09/2025</span>
                             </div>
                             <div class="tarefa-actions">
-                                <button class="btn-action btn-concluir">Concluir</button>
-                                <button class="btn-action btn-excluir">Excluir</button>
+                                <button class="btn-action btn-concluir"><i class="fas fa-check"></i></button>
+                                <button class="btn-action btn-excluir"><i class="fas fa-trash-alt"></i></button>
                             </div>
                         </li>
-                        <li>
+                        <li class="task-item">
                             <div class="tarefa-info">
                                 <span class="tarefa-descricao">Enviar e-mail de lembrete para o grupo</span>
                                 <span class="tarefa-data">Vencimento: 30/09/2025</span>
                             </div>
                             <div class="tarefa-actions">
-                                <button class="btn-action btn-concluir">Concluir</button>
-                                <button class="btn-action btn-excluir">Excluir</button>
+                                <button class="btn-action btn-concluir"><i class="fas fa-check"></i></button>
+                                <button class="btn-action btn-excluir"><i class="fas fa-trash-alt"></i></button>
                             </div>
                         </li>
-                         <li id="sem-tarefas-row" style="display: none;">
+                         <li id="sem-tarefas-row" class="empty-list-message" style="display: none;">
                             <p>Você não tem tarefas pendentes. Adicione uma acima!</p>
                         </li>
                     </ul>
                 </div>
             </section>
+            
             <section class="history-block">
-                <h2>Meu Histórico de Participação</h2>
+                <h2 class="section-title">Meu Histórico de Participação</h2>
                 <div class="table-container">
                     <table class="table" id="historico-table">
                         <thead>
@@ -91,17 +103,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            </tbody>
+                            <tr>
+                                <td>Oficina de Design UX</td>
+                                <td>22/08/2025</td>
+                                <td>15 horas</td>
+                            </tr>
+                            <tr>
+                                <td>Oficina de Programação Front-end</td>
+                                <td>01/09/2025</td>
+                                <td>20 horas</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </section>
         </div>
     </main>
     
-    <footer>
+    <footer class="main-footer">
         <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
         <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
     </footer> 
 
+    <script type="module" src="dashboard-voluntario.js"></script>
 </body>
 </html>

@@ -1,0 +1,349 @@
+/* Importação da fonte Poppins e definição de variáveis de cores */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --color-primary: #5D3FD3; /* Roxo Escuro */
+    --color-secondary: #FF7F11; /* Laranja Vibrante */
+    --color-background: #F5F5F5;
+    --color-text-dark: #333;
+    --color-text-light: #FFF;
+    --color-active-bg: #4933a6;
+    --color-success: #28a745;
+    --color-danger: #dc3545;
+    --color-info: #007bff;
+    --color-footer-bg: #E8E8E8; /* Cor sutil para o footer */
+}
+
+/* -------------------------------------- */
+/* 0. Estilos Globais e Layout Base */
+/* -------------------------------------- */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%; 
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-background);
+    margin: 0;
+    color: var(--color-text-dark);
+}
+
+.main-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 30px 40px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: var(--color-text-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+/* -------------------------------------- */
+/* 1. Header da Página e Botão Adicionar */
+/* -------------------------------------- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px; 
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: var(--color-primary);
+    margin: 0;
+}
+
+.subtitle {
+    color: #888;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Botão Primário: Adicionar Nova Oficina (Laranja) */
+.btn-primary {
+    background-color: var(--color-secondary);
+    color: var(--color-text-light);
+}
+.btn-primary:hover {
+    background-color: #e56a00;
+}
+
+
+/* -------------------------------------- */
+/* 2. Filtros e Busca */
+/* -------------------------------------- */
+.table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-text-light);
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-group {
+    flex-grow: 1; 
+    max-width: 450px; 
+}
+
+.filter-group {
+    margin-left: auto; 
+}
+
+
+.table-controls input[type="search"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.table-controls select {
+    padding: 10px;
+    border: 1px solid var(--color-primary);
+    border-radius: 5px;
+    background-color: var(--color-background);
+    color: var(--color-primary);
+    font-weight: 500;
+    cursor: pointer;
+    min-width: 130px; 
+}
+
+.control-group i {
+    color: var(--color-primary);
+}
+
+
+/* -------------------------------------- */
+/* 3. Estilo da Tabela de Oficinas */
+/* -------------------------------------- */
+.table-container {
+    padding: 0;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.table thead th {
+    background-color: var(--color-background);
+    color: var(--color-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.table tbody tr:hover {
+    background-color: #fcfcfc;
+}
+
+/* Ícones de Ação na Tabela */
+.actions-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-action {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: color 0.2s;
+    padding: 0;
+    margin: 0;
+    color: var(--color-primary); 
+    text-decoration: none;
+}
+.btn-action:hover {
+    opacity: 0.7;
+}
+
+/* Registrar Presença (Laranja) */
+.btn-presenca {
+    color: var(--color-secondary); 
+}
+.btn-presenca:hover {
+    color: #e56a00;
+}
+
+/* Editar (Roxo - Já é a cor base, mas mantemos a classe para consistência) */
+.btn-edit {
+    color: var(--color-primary);
+}
+.btn-edit:hover {
+    color: #4933a6;
+}
+
+/* Excluir (Vermelho) */
+.btn-delete {
+    color: var(--color-danger); 
+}
+.btn-delete:hover {
+    color: #a71d2a;
+}
+
+
+/* -------------------------------------- */
+/* 4. Estilo do MODAL - CORREÇÃO FINAL */
+/* -------------------------------------- */
+.modal {
+    display: none; /* Inicia oculto, o JS alterna para 'flex' */
+    position: fixed;
+    z-index: 10000; /* Garante que o modal esteja acima de todo o conteúdo */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto; /* Permite rolagem dentro do modal se o conteúdo for muito alto */
+    background-color: rgba(0, 0, 0, 0.6); /* Fundo semi-transparente */
+
+    /* Garante que o modal (o overlay) seja um contêiner flex para centralizar seu conteúdo */
+    display: flex; /* Adicionei aqui para a imagem. O JS vai alternar entre 'none' e 'flex' */
+    justify-content: center; /* Centraliza horizontalmente o modal-content */
+    align-items: center;   /* Centraliza verticalmente o modal-content */
+}
+
+.modal-content {
+    background-color: #fefefe; /* CORREÇÃO: Certifique-se de ter um background-color branco */
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    
+    /* CORREÇÃO: Remova o 'margin: 50px auto;' aqui.
+       O flexbox do .modal pai já faz a centralização.
+       Se você quiser um 'respiro' superior, use padding-top no .modal ou defina min-height/max-height.
+       Para garantir que ele não 'cole' em cima, podemos usar um pequeno margin-top para o conteúdo.
+    */
+    margin-top: 20px; /* Dá um pequeno respiro no topo, se a tela for menor */
+    margin-bottom: 20px; /* E na parte inferior */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+#modal-title {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+}
+
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: var(--color-danger);
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="date"],
+.modal-content input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+.modal-content input:focus {
+    border-color: var(--color-secondary);
+    outline: none;
+}
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 30px;
+}
+.btn-primary-modal {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+}
+.btn-primary-modal:hover {
+    background-color: #4933a6;
+}
+.btn-secondary {
+    background-color: var(--color-neutral);
+    color: var(--color-text-dark);
+}
+.btn-secondary:hover {
+    background-color: #bbb;
+}
+
+
+/* -------------------------------------- */
+/* 5. Footer Principal */
+/* -------------------------------------- */
+.main-footer {
+    width: 100%;
+    padding: 15px 40px;
+    
+    /* ALTERAÇÃO AQUI: Mudar de var(--color-primary) para var(--color-secondary) */
+    background-color: var(--color-secondary); /* Laranja Vibrante */
+    
+    /* Ajustamos a cor do texto para ser escura ou branca, dependendo do contraste */
+    color: var(--color-text-light); /* Mantém o texto em branco para contraste */
+    
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}

@@ -3,110 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Voluntário - ELLP</title>
+    
+    <title>Detalhes do Voluntário - Volluntariado</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <link rel="stylesheet" href="../../components/menuLateral/menuLateral.css"> 
+    <link rel="stylesheet" href="detalhes-voluntario.css">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script type="module" src="detalhes-voluntario.js"></script>
-    <link rel="stylesheet" href="detalhes-voluntario.css">
 </head>
 <body>
 
-    <div id="menu-placeholder"></div>
-
-    <main class="content">
-        <div class="container">
-            <div class="header">
-                <a href="../gerenciar-voluntarios/gerenciar-voluntarios.html" class="back-link">&larr; Voltar para a lista</a>
-                <h1>Detalhes de Giovana Kaori</h1>
-                <p>Informações completas, histórico e ações para o voluntário.</p>
-            </div>
-
-            <div class="details-grid">
-                
-                <div class="info-block">
-                    <h2>Informações Pessoais</h2>
-                    <dl>
-                        <dt>Nome Completo:</dt>
-                        <dd id="voluntario-nome">Giovana Kaori</dd>
-                        
-                        <dt>RA:</dt>
-                        <dd id="voluntario-ra">123456</dd>
-                        
-                        <dt>Curso:</dt>
-                        <dd id="voluntario-curso">Engenharia de Software</dd>
-                        
-                        <dt>Período:</dt>
-                        <dd id="voluntario-periodo">7º</dd>
-
-                        <dt>E-mail:</dt>
-                        <dd id="voluntario-email">giovana.kaori@alunos.utfpr.edu.br</dd>
-
-                        <dt>Telefone:</dt>
-                        <dd id="voluntario-telefone">(43) 99999-8888</dd>
-                        
-                        <dt>Data de Entrada:</dt>
-                        <dd id="voluntario-data-entrada">10/03/2024</dd>
-
-                        <dt>Status:</dt>
-                        <dd><span id="voluntario-status" class="status-ativo">Ativo</span></dd>
-                    </dl>
-                </div>
-
-                <div class="hours-block">
-                    <h2>Resumo de Horas</h2>
-                    <div class="card-total-horas">
-                        <p>Total Acumulado</p>
-                        <span id="total-horas-acumuladas">48h</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="history-block">
-                <h2>Histórico de Participação</h2>
-                <div class="table-container">
-                    <table class="table" id="historico-table">
-                        <thead>
-                            <tr>
-                                <th>Nome da Oficina</th>
-                                <th>Data</th>
-                                <th>Carga Horária</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Lógica de Programação com Blocos</td>
-                                <td>25/09/2025</td>
-                                <td>4h</td>
-                            </tr>
-                            <tr>
-                                <td>Introdução à Robótica com Arduino</td>
-                                <td>18/08/2025</td>
-                                <td>8h</td>
-                            </tr>
-                             <tr>
-                                <td>Desenvolvimento de Apps para Iniciantes</td>
-                                <td>05/07/2025</td>
-                                <td>8h</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="actions">
-                <button id="btn-gerar-relatorio" class="btn">Gerar Relatório PDF</button>
-                <button id="btn-gerar-termo" class="btn">Gerar Termo de Voluntariado</button>
+    <div class="main-layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="logo">Volluntariado</h2>
             </div>
             
-        </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../dashboard-coordenador/dashboard-coordenador.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li class="active"><a href="../gerenciar-voluntarios/gerenciar-voluntarios.html"><i class="fas fa-users"></i> Voluntários</a></li> 
+                    <li><a href="../gerenciar-oficinas/gerenciar-oficinas.html"><i class="fas fa-calendar-check"></i> Oficinas</a></li>
+                    <li><a href="../perfil-coordenador/perfil-coordenador.html"><i class="fas fa-user-circle"></i> Perfil</a></li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Sair</button>
+            </div>
+        </aside>
 
-        <footer>
-            <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
-            <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
-        </footer> 
-    </main>
-    
-    <script type="module" src=""></script>
+        <main class="content">
+            <div class="container">
+                <div class="header">
+                    <a href="../gerenciar-voluntarios/gerenciar-voluntarios.html" class="back-link"><i class="fas fa-arrow-left"></i> Voltar para a lista</a>
+                    <h1>Detalhes de Giovana Kaori</h1>
+                    <p>Informações completas, histórico e ações para o voluntário.</p>
+                </div>
+
+                <div class="details-grid">
+                    
+                    <div class="info-block card">
+                        <h2>Informações Pessoais</h2>
+                        <dl class="data-list">
+                            <dt>Nome Completo:</dt>
+                            <dd id="voluntario-nome">Giovana Kaori</dd>
+                            
+                            <dt>RA:</dt>
+                            <dd id="voluntario-ra">123456</dd>
+                            
+                            <dt>Curso:</dt>
+                            <dd id="voluntario-curso">Engenharia de Software</dd>
+                            
+                            <dt>Período:</dt>
+                            <dd id="voluntario-periodo">7º</dd>
+
+                            <dt>E-mail:</dt>
+                            <dd id="voluntario-email">giovana.kaori@alunos.utfpr.edu.br</dd>
+
+                            <dt>Telefone:</dt>
+                            <dd id="voluntario-telefone">(43) 99999-8888</dd>
+                            
+                            <dt>Data de Entrada:</dt>
+                            <dd id="voluntario-data-entrada">10/03/2024</dd>
+
+                            <dt>Status:</dt>
+                            <dd><span id="voluntario-status" class="status-active">Ativo</span></dd>
+                            
+                            <dt>Data de Saída:</dt>
+                            <dd id="voluntario-data-saida">Em atividade</dd> 
+                            
+                        </dl>
+                    </div>
+
+                    <div class="hours-block card hours-highlight-card">
+                        <h2>Total de Horas</h2>
+                        <div class="card-total-horas">
+                            <i class="fas fa-hourglass-half hours-icon"></i>
+                            <span id="total-horas-acumuladas" class="hours-value">48h</span>
+                            <p class="hours-label">Acumuladas até o momento</p>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button id="btn-gerar-relatorio" class="btn btn-secondary-icon">
+                                <i class="fas fa-file-pdf"></i> Gerar Relatório PDF
+                            </button>
+                            <button id="btn-gerar-termo" class="btn btn-primary-icon">
+                                <i class="fas fa-file-alt"></i> Gerar Termo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="history-block section">
+                    <h2>Histórico de Participação</h2>
+                    <div class="table-container">
+                        <table class="table" id="historico-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome da Oficina</th>
+                                    <th>Data</th>
+                                    <th>Carga Horária</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Lógica de Programação com Blocos</td>
+                                    <td>25/09/2025</td>
+                                    <td>4h</td>
+                                </tr>
+                                <tr>
+                                    <td>Introdução à Robótica com Arduino</td>
+                                    <td>18/08/2025</td>
+                                    <td>8h</td>
+                                </tr>
+                                <tr>
+                                    <td>Desenvolvimento de Apps para Iniciantes</td>
+                                    <td>05/07/2025</td>
+                                    <td>8h</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+        </main>
+    </div>
+    <footer class="main-footer">
+        <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
+        <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
+    </footer> 
 </body>
 </html>

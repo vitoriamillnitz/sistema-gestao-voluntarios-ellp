@@ -1,0 +1,164 @@
+/* Importação da fonte Poppins e definição de variáveis de cores */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --color-primary: #5D3FD3; /* Roxo Escuro */
+    --color-secondary: #FF7F11; /* Laranja Vibrante */
+    --color-background: #F5F5F5;
+    --color-text-dark: #333;
+    --color-error: #dc3545;
+}
+
+/* Estilos Globais e de Fundo */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-primary); /* Fundo roxo */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--color-text-dark);
+}
+
+/* Container Principal e Card */
+.recuperar-container {
+    flex-grow: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.recuperar-box {
+    background-color: #FFF;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Estilo do Logo e Títulos */
+.recuperar-box .logo {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--color-secondary); /* Logo em Laranja */
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+.recuperar-box .subtitle {
+    font-size: 1.4rem;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+.recuperar-box .instruction-text {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+
+/* Estilo do Formulário */
+.form-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input[type="email"]:focus {
+    border-color: var(--color-primary);
+    outline: none;
+}
+
+/* Estilo do Botão Principal (Recuperar) */
+.btn-primary {
+    background-color: var(--color-secondary); /* Laranja */
+    color: #FFF;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #e56a00; /* Laranja mais escuro no hover */
+}
+
+.btn-primary i {
+    margin-right: 8px;
+}
+
+/* Links (Voltar para Login) */
+.links {
+    margin-top: 25px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.links a {
+    color: var(--color-primary); /* Links em Roxo */
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.links a:hover {
+    text-decoration: underline;
+    color: #4933a6;
+}
+
+.links a i {
+    margin-right: 5px;
+}
+
+
+/* Mensagem de Erro/Sucesso */
+.error-text {
+    color: var(--color-error);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    text-align: left;
+    min-height: 20px;
+}
+
+/* Estilo do Footer */
+.login-footer {
+    width: 100%;
+    padding: 15px 0;
+    background-color: var(--color-primary); 
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.4;
+}

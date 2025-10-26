@@ -1,0 +1,198 @@
+/* Importação da fonte Poppins e definição de variáveis de cores */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --color-primary: #5D3FD3; /* Roxo Escuro */
+    --color-secondary: #FF7F11; /* Laranja Vibrante */
+    --color-background: #F5F5F5;
+    --color-text-dark: #333;
+    --color-text-light: #FFF;
+    --color-success: #28a745;
+    --color-neutral: #ccc;
+    --color-disabled-bg: #eee;
+}
+
+/* -------------------------------------- */
+/* 0. Estilos Globais e Layout Base */
+/* -------------------------------------- */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%; 
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-background);
+    margin: 0;
+    color: var(--color-text-dark);
+}
+
+.main-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 30px 40px;
+}
+
+.container {
+    max-width: 900px; /* Maior que o card de login, mas focado */
+    margin: 0 auto;
+}
+
+/* -------------------------------------- */
+/* 1. Header da Página */
+/* -------------------------------------- */
+.header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: var(--color-primary);
+    margin: 0;
+}
+
+.header p {
+    color: #888;
+}
+
+/* -------------------------------------- */
+/* 2. Card do Perfil e Formulário */
+/* -------------------------------------- */
+.profile-card {
+    background-color: var(--color-text-light);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.profile-card h2 {
+    font-size: 1.4rem;
+    color: var(--color-primary);
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.separator {
+    border: 0;
+    height: 1px;
+    background: #eee;
+    margin: 30px 0;
+}
+
+/* Estilo do Formulário */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--color-text-dark);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-neutral);
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: var(--color-secondary);
+    outline: none;
+}
+
+/* Estilo para campos DESABILITADOS (default) */
+input[disabled] {
+    background-color: var(--color-disabled-bg);
+    color: #666;
+    cursor: not-allowed;
+    border: 1px solid #ddd;
+}
+
+/* -------------------------------------- */
+/* 3. Botões de Ação */
+/* -------------------------------------- */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Botão Salvar (Laranja - Ação Primária) */
+#btn-salvar {
+    background-color: var(--color-secondary);
+    color: var(--color-text-light);
+}
+#btn-salvar:hover {
+    background-color: #e56a00;
+}
+
+/* Botão Editar (Roxo - Ação Padrão) */
+#btn-editar {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+}
+#btn-editar:hover {
+    background-color: #4933a6;
+}
+
+/* Botão Cancelar (Secundário/Cinza) */
+.btn-secondary {
+    background-color: var(--color-neutral);
+    color: var(--color-text-dark);
+}
+.btn-secondary:hover {
+    background-color: #bbb;
+}
+
+
+/* -------------------------------------- */
+/* 4. Footer Principal (Reutilizado) */
+/* -------------------------------------- */
+.main-footer {
+    width: 100%;
+    padding: 15px 40px;
+    
+    /* ALTERAÇÃO AQUI: Mudar de var(--color-primary) para var(--color-secondary) */
+    background-color: var(--color-secondary); /* Laranja Vibrante */
+    
+    /* Ajustamos a cor do texto para ser escura ou branca, dependendo do contraste */
+    color: var(--color-text-light); /* Mantém o texto em branco para contraste */
+    
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}

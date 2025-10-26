@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // =================================================================
     // 1. DADOS MOCADOS (MOCK DATA)
-    // Simulam os dados que, no futuro, virão do banco de dados Firebase.
     // =================================================================
     const mockVoluntarios = [
         { id: 'v01', nome: 'Brenda Beatriz', ra: 'a234567', status: 'Ativo' },
@@ -42,6 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const listaPresencaUl = document.querySelector('.lista-presenca');
     const marcarTodosCheckbox = document.getElementById('marcar-todos');
     const presencaForm = document.getElementById('presenca-form');
+    
+    // NOVO: Seleção do botão de Logout (Ele está na estrutura do menu lateral)
+    const logoutBtn = document.getElementById('logout-btn');
 
     // Pega os parâmetros da URL (ex: ?id=o01) para saber de qual oficina se trata.
     const urlParams = new URLSearchParams(window.location.search);
@@ -115,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault(); // Impede o recarregamento da página.
 
         // Passo 1: Limpa o registro de presença *apenas para esta oficina*.
-        // Esta estratégia garante que tanto adições quanto remoções de presença sejam salvas corretamente.
         mockParticipacoes = mockParticipacoes.filter(p => p.oficinaId !== oficinaId);
 
         // Pega todos os checkboxes que estão atualmente marcados na tela.
@@ -123,10 +124,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Passo 2: Para cada checkbox marcado, cria um novo registro de participação e o adiciona ao nosso array principal.
         checkboxesMarcados.forEach(checkbox => {
-            mockParticipacoes.push({
-                voluntarioId: checkbox.value,
-                oficinaId: oficinaId,
-            });
+            // Verifica se o ID do checkbox principal não está sendo incluído acidentalmente
+            if (checkbox.id !== 'marcar-todos') {
+                mockParticipacoes.push({
+                    voluntarioId: checkbox.value,
+                    oficinaId: oficinaId,
+                });
+            }
         });
 
         console.log('Lista de presença atualizada:', mockParticipacoes);
@@ -135,6 +139,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Após salvar, redireciona o usuário de volta para a tela de gerenciamento.
         window.location.href = '../gerenciar-oficinas/gerenciar-oficinas.html';
     });
+    
+    // --- LÓGICA DE LOGOUT (NOVO) ---
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            alert('Logout simulado! Redirecionando para a página de login.');
+            // Redirecionamento para a página de login
+            window.location.href = '../login/login.html'; 
+        });
+    }
 
     // =================================================================
     // 5. EXECUÇÃO INICIAL
