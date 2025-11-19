@@ -260,8 +260,6 @@ html, body {
     overflow-y: auto; /* Permite rolagem dentro do modal se o conteúdo for muito alto */
     background-color: rgba(0, 0, 0, 0.6); /* Fundo semi-transparente */
 
-    /* Garante que o modal (o overlay) seja um contêiner flex para centralizar seu conteúdo */
-    display: flex; /* Adicionei aqui para a imagem. O JS vai alternar entre 'none' e 'flex' */
     justify-content: center; /* Centraliza horizontalmente o modal-content */
     align-items: center;   /* Centraliza verticalmente o modal-content */
 }
