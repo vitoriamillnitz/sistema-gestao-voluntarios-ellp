@@ -1,98 +1,107 @@
+// ======================================================
+// 1. IMPORTAÇÕES
+// ======================================================
+import { auth, db } from '../../firebase/firebase-config.js';
+import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from "firebase/firestore";
+import { signOut } from "firebase/auth";
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    // =================================================================
-    // 1. MOCK DATA 
-    // =================================================================
-    let mockOficinas = [
-        { id: 'o01', nome: 'Lógica com Blocos', data: '2025-10-25', cargaHoraria: 4, status: 'Agendada' },
-        { id: 'o02', nome: 'Introdução a HTML/CSS', data: '2025-11-08', cargaHoraria: 6, status: 'Agendada' },
-        { id: 'o03', nome: 'Robótica com Arduino', data: '2025-09-15', cargaHoraria: 8, status: 'Realizada' },
-        { id: 'o04', nome: 'Oficina de UX Design', data: '2025-08-01', cargaHoraria: 3, status: 'Realizada' },
-        { id: 'o05', nome: 'Metodologias Ágeis', data: '2025-12-05', cargaHoraria: 4, status: 'Agendada' },
-    ];
-    let nextIdNumber = 6;
-
-    // =================================================================
-    // 2. SELEÇÃO DOS ELEMENTOS DO HTML (CORRIGIDO: Apenas uma seleção)
-    // =================================================================
+    // ======================================================
+    // 2. SELEÇÃO DE ELEMENTOS
+    // ======================================================
     const tabelaOficinasTbody = document.querySelector('#oficinas-table tbody');
     const btnNovaOficina = document.getElementById('btn-nova-oficina');
-    const modal = document.getElementById('oficina-modal'); 
+    const modal = document.getElementById('oficina-modal');
+    const logoutBtn = document.getElementById('logout-btn');
     
-    // Novos Controles de Busca/Filtro
+    // Filtros
     const searchInput = document.getElementById('search-oficina');
     const filterStatusSelect = document.getElementById('filter-status');
 
-    // Elementos internos do Modal
-    const modalTitle = document.getElementById('modal-title');
+    // Elementos do Modal
     const oficinaForm = document.getElementById('oficina-form');
-    const oficinaIdInput = document.getElementById('oficina-id');
-    const nomeOficinaInput = document.getElementById('nome-oficina');
-    const dataOficinaInput = document.getElementById('data-oficina');
+    const btnCancelar = document.getElementById('btn-cancelar');
+    const closeBtn = document.querySelector('.close-btn');
+
+    // Inputs do formulário
+    const nomeInput = document.getElementById('nome-oficina');
+    const dataInput = document.getElementById('data-oficina');
     const cargaHorariaInput = document.getElementById('carga-horaria');
-    const closeButtons = modal.querySelectorAll('[data-close-modal], #btn-cancelar, .close-btn');
 
-    // SELEÇÃO CORRETA: O botão de Logout é selecionado aqui
-    const logoutBtn = document.getElementById('logout-btn');
+    let listaOficinas = []; // Array local para busca/filtro
 
-    // =================================================================
-    // 3. FUNÇÕES DO MODAL
-    // =================================================================
+    // ======================================================
+    // 3. CARREGAR DADOS (READ)
+    // ======================================================
+    const carregarOficinas = async () => {
+        tabelaOficinasTbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Carregando...</td></tr>';
+        
+        try {
+            // Busca na coleção "oficinas", tentando ordenar por data
+            // Nota: Se der erro de índice no console, remova o orderBy temporariamente
+            const q = query(collection(db, "oficinas"), orderBy("data", "asc")); 
+            // Se preferir sem ordenação por enquanto: const q = collection(db, "oficinas");
+            
+            const querySnapshot = await getDocs(q);
+            listaOficinas = [];
 
-    const abrirModal = (oficina = null) => {
-        oficinaForm.reset(); 
-        if (oficina) { 
-            modalTitle.textContent = 'Editar Oficina';
-            oficinaIdInput.value = oficina.id;
-            nomeOficinaInput.value = oficina.nome;
-            dataOficinaInput.value = oficina.data;
-            cargaHorariaInput.value = oficina.cargaHoraria;
-        } else { 
-            modalTitle.textContent = 'Adicionar Nova Oficina';
-            oficinaIdInput.value = '';
+            querySnapshot.forEach((doc) => {
+                listaOficinas.push({ id: doc.id, ...doc.data() });
+            });
+
+            renderizarTabela();
+
+        } catch (error) {
+            console.error("Erro ao listar oficinas:", error);
+            // Fallback: tenta buscar sem ordenação se falhar (índice não criado)
+            if (error.code === 'failed-precondition') {
+                const snap = await getDocs(collection(db, "oficinas"));
+                listaOficinas = [];
+                snap.forEach(doc => listaOficinas.push({ id: doc.id, ...doc.data() }));
+                renderizarTabela();
+            } else {
+                tabelaOficinasTbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red">Erro ao carregar dados.</td></tr>';
+            }
         }
-        modal.style.display = 'flex'; 
     };
 
-    const fecharModal = () => {
-        modal.style.display = 'none';
-        oficinaForm.reset();
-    };
-
-    // =================================================================
-    // 4. FUNÇÃO DE RENDERIZAÇÃO E FILTRO
-    // =================================================================
-
+    // ======================================================
+    // 4. RENDERIZAR TABELA
+    // ======================================================
     const renderizarTabela = () => {
-        const termoBusca = searchInput.value.toLowerCase();
-        const statusFiltro = filterStatusSelect.value;
-        let oficinasFiltradas = mockOficinas;
-        
-        // 1. Aplica filtro de status
-        if (statusFiltro !== 'todos') {
-            oficinasFiltradas = oficinasFiltradas.filter(o => o.status.toLowerCase() === statusFiltro);
-        }
+        const termo = searchInput.value.toLowerCase();
+        const statusFiltro = filterStatusSelect.value; // 'agendada', 'realizada', 'todos'
 
-        // 2. Aplica filtro de busca
-        if (termoBusca) {
-            oficinasFiltradas = oficinasFiltradas.filter(o => 
-                o.nome.toLowerCase().includes(termoBusca) || 
-                o.data.includes(termoBusca)
-            );
-        }
+        // Hoje para comparação de status
+        const hoje = new Date().toISOString().split('T')[0];
 
-        tabelaOficinasTbody.innerHTML = ''; 
-        
-        if (oficinasFiltradas.length === 0) {
-            tabelaOficinasTbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Nenhuma oficina encontrada.</td></tr>';
+        const filtradas = listaOficinas.filter(oficina => {
+            const matchNome = oficina.nome.toLowerCase().includes(termo);
+            const matchData = oficina.data.includes(termo);
+            
+            // Lógica simples de status baseada na data
+            let statusReal = oficina.data < hoje ? 'realizada' : 'agendada';
+            if (oficina.status) statusReal = oficina.status; // Se tiver status salvo no banco, usa ele
+
+            const matchStatus = statusFiltro === 'todos' || statusReal === statusFiltro;
+
+            return (matchNome || matchData) && matchStatus;
+        });
+
+        tabelaOficinasTbody.innerHTML = '';
+
+        if (filtradas.length === 0) {
+            tabelaOficinasTbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Nenhuma oficina encontrada.</td></tr>';
             return;
         }
 
-        oficinasFiltradas.forEach(oficina => {
-            const dataFormatada = new Date(oficina.data + 'T00:00:00').toLocaleDateString('pt-BR');
-            const linha = document.createElement('tr');
+        filtradas.forEach(oficina => {
+            // Formata data (PT-BR)
+            const dataFormatada = new Date(oficina.data + 'T12:00:00').toLocaleDateString('pt-BR');
             
-            linha.innerHTML = `
+            const row = document.createElement('tr');
+            row.innerHTML = `
                 <td>${oficina.nome}</td>
                 <td>${dataFormatada}</td>
                 <td>${oficina.cargaHoraria}h</td>
@@ -100,112 +109,92 @@ document.addEventListener('DOMContentLoaded', () => {
                     <a href="../registrar-presenca/registrar-presenca.html?id=${oficina.id}" class="btn-action btn-presenca" title="Registrar Presença">
                         <i class="fas fa-user-check"></i>
                     </a>
-                    <button class="btn-action btn-edit" title="Editar" data-id="${oficina.id}">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn-action btn-delete" title="Excluir" data-id="${oficina.id}">
+                    <button class="btn-action btn-delete" data-id="${oficina.id}" title="Excluir">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </td>
             `;
-            tabelaOficinasTbody.appendChild(linha);
+            tabelaOficinasTbody.appendChild(row);
         });
     };
-    
-    // =================================================================
-    // 5. LÓGICA DE SALVAR
-    // =================================================================
 
-    oficinaForm.addEventListener('submit', (event) => {
-        event.preventDefault();
+    // ======================================================
+    // 5. CRIAR OFICINA (CREATE)
+    // ======================================================
+    oficinaForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-        const id = oficinaIdInput.value;
         const novaOficina = {
-            nome: nomeOficinaInput.value,
-            data: dataOficinaInput.value,
-            cargaHoraria: parseInt(cargaHorariaInput.value),
-            status: 'Agendada', 
+            nome: nomeInput.value,
+            data: dataInput.value,
+            cargaHoraria: Number(cargaHorariaInput.value),
+            status: 'agendada' // Status inicial padrão
         };
 
-        if (id) { 
-            const index = mockOficinas.findIndex(o => o.id === id);
-            mockOficinas[index] = { ...mockOficinas[index], ...novaOficina };
-        } else { 
-            novaOficina.id = 'o' + new Date().getTime() + nextIdNumber++; 
-            mockOficinas.push(novaOficina);
+        try {
+            await addDoc(collection(db, "oficinas"), novaOficina);
+            alert('Oficina cadastrada com sucesso!');
+            fecharModal();
+            carregarOficinas(); // Recarrega a tabela
+
+        } catch (error) {
+            console.error("Erro ao cadastrar:", error);
+            alert("Erro ao cadastrar oficina.");
         }
-        
-        renderizarTabela();
-        fecharModal();
     });
 
-    // =================================================================
-    // 6. EVENT LISTENERS (CONEXÃO FINAL)
-    // =================================================================
+    // ======================================================
+    // 6. EXCLUIR OFICINA (DELETE)
+    // ======================================================
+    tabelaOficinasTbody.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.btn-delete');
+        if (!btn) return;
 
-    // Filtros e Busca
+        const id = btn.dataset.id;
+        if (confirm("Tem certeza que deseja excluir esta oficina? Isso não pode ser desfeito.")) {
+            try {
+                await deleteDoc(doc(db, "oficinas", id));
+                alert("Oficina excluída!");
+                carregarOficinas();
+            } catch (error) {
+                console.error("Erro ao excluir:", error);
+                alert("Erro ao excluir oficina.");
+            }
+        }
+    });
+
+    // ======================================================
+    // 7. MODAL, FILTROS E LOGOUT
+    // ======================================================
+    
+    const fecharModal = () => {
+        modal.style.display = "none";
+        oficinaForm.reset();
+    };
+
+    if (btnNovaOficina) btnNovaOficina.addEventListener('click', () => modal.style.display = "flex");
+    if (btnCancelar) btnCancelar.addEventListener('click', fecharModal);
+    if (closeBtn) closeBtn.addEventListener('click', fecharModal);
+    
+    window.onclick = (event) => {
+        if (event.target == modal) fecharModal();
+    };
+
+    // Filtros
     searchInput.addEventListener('input', renderizarTabela);
     filterStatusSelect.addEventListener('change', renderizarTabela);
 
-    // --- Funcionalidade 1: Abrir Modal (Botão Laranja) ---
-    if (btnNovaOficina) {
-        btnNovaOficina.addEventListener('click', (event) => {
-            event.preventDefault(); 
-            abrirModal();
-        });
-    }
-
-    // --- Funcionalidade 2: Fechar Modal ---
-    closeButtons.forEach(button => {
-        button.addEventListener('click', fecharModal);
-    });
-    
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            fecharModal();
-        }
-    });
-
-    // --- Funcionalidade 3: Ações da Tabela (Editar/Excluir) ---
-    tabelaOficinasTbody.addEventListener('click', (event) => {
-        const targetButton = event.target.closest('button');
-        if (!targetButton) return;
-        
-        const id = targetButton.dataset.id;
-        if (!id) return; 
-
-        if (targetButton.classList.contains('btn-delete')) {
-            if (confirm(`Tem certeza que deseja excluir a oficina?`)) {
-                mockOficinas = mockOficinas.filter(o => o.id !== id);
-                renderizarTabela();
-            }
-        } else if (targetButton.classList.contains('btn-edit')) {
-            const oficinaParaEditar = mockOficinas.find(o => o.id === id);
-            if (oficinaParaEditar) {
-                 abrirModal(oficinaParaEditar);
-            }
-        }
-    });
-
-    // =================================================================
-    // 7. LÓGICA DE LOGOUT (AGORA FUNCIONANDO)
-    // =================================================================
-    // Usamos a variável 'logoutBtn' selecionada na Seção 2
+    // Logout
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            alert('Logout simulado! Redirecionando para a página de login.');
-            // Redirecionamento para a página de login
-            window.location.href = '../login/login.html'; 
+        logoutBtn.addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = '../login/login.html';
         });
     }
 
+    // Garante modal fechado no início
+    if (modal) modal.style.display = 'none';
 
-    // =================================================================
-    // 8. EXECUÇÃO INICIAL
-    // =================================================================
-    // GARANTIA DE FECHAMENTO AO CARREGAR
-    if (modal) {
-        modal.style.display = 'none'; 
-    }
-    renderizarTabela();
+    // Inicializa
+    carregarOficinas();
 });
