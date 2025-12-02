@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao Volluntariado - ELLP</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="stylesheet" href="apresentacao.css"> 
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <h1 class="logo">Volluntariado</h1>
+            <nav class="landing-nav">
+                <a href="#sobre">Sobre o Projeto</a>
+                <a href="#fotos">Galeria</a>
+                <a href="#acesso" class="btn-nav">Acessar</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="landing-content">
+        
+        <section class="hero-section">
+            <div class="container">
+                <h2>Ensino Lúdico de Lógica e Programação</h2>
+                <p>Gerencie sua participação, oficinas e certificados de forma simples e rápida.</p>
+                <a href="#acesso" class="btn btn-hero">Começar Agora</a>
+            </div>
+        </section>
+
+        <section id="sobre" class="about-section">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3 class="section-title">O que é o ELLP?</h3>
+                        <p>
+                            O <strong>Projeto ELLP (Ensino Lúdico de Lógica e Programação)</strong> é uma iniciativa de extensão da <strong>UTFPR-CP</strong> que visa introduzir o pensamento computacional para crianças e jovens da comunidade.
+                        </p>
+                        <p>
+                            Através de oficinas interativas, utilizamos ferramentas como Scratch, robótica com Arduino e jogos desplugados para tornar o aprendizado de tecnologia acessível e divertido. Nossos voluntários são a peça chave para levar esse conhecimento adiante.
+                        </p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle"></i> Oficinas Práticas</li>
+                            <li><i class="fas fa-check-circle"></i> Impacto Social</li>
+                            <li><i class="fas fa-check-circle"></i> Desenvolvimento de Habilidades</li>
+                        </ul>
+                    </div>
+                    <div class="about-image">
+                        <img src="oficina.png" alt="Alunos em oficina do ELLP">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="fotos" class="gallery-section">
+            <div class="container">
+                <h3 class="section-title center">Momentos do Projeto</h3>
+                <p class="section-subtitle">Confira um pouco do que acontece em nossas oficinas.</p>
+                
+                <div class="gallery-grid">
+                    
+                    <div class="gallery-item">
+                        <div class="image-wrapper">
+                            <img src="scratch.png" alt="Crianças programando">
+                        </div>
+                        <div class="gallery-caption">
+                            <h4>Oficinas de Scratch</h4>
+                            <p>Ensino de lógica básica</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="image-wrapper">
+                            <img src="robo.png" alt="Robótica">
+                        </div>
+                        <div class="gallery-caption">
+                            <h4>Robótica com Arduino</h4>
+                            <p>Prática e eletrônica</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="image-wrapper">
+                            <img src="voluntario.png" alt="Equipe de voluntários">
+                        </div>
+                        <div class="gallery-caption">
+                            <h4>Nossa Equipe</h4>
+                            <p>Voluntários engajados</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="image-wrapper">
+                            <img src="kidsday.png" alt="Evento ELLP">
+                        </div>
+                        <div class="gallery-caption">
+                            <h4>Eventos e Integração</h4>
+                            <p>Compartilhando conhecimento</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="acesso" class="roles-section">
+            <div class="container">
+                <h3 class="section-title center">Faça parte do time</h3>
+                
+                <div class="roles-container">
+                    <div class="role-card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3>Sou Voluntário</h3>
+                        <p>Acompanhe suas horas, veja seu histórico e inscreva-se em oficinas.</p>
+                        <div class="button-group">
+                            <a href="../login/login.html" class="btn btn-outline">JÁ TENHO CONTA</a>
+                            <a href="../cadastro-voluntario/cadastro-voluntario.html" class="btn btn-primary">QUERO ME CADASTRAR</a>
+                        </div>
+                    </div>
+
+                    <div class="role-card coordinator-card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <h3>Sou Coordenador</h3>
+                        <p>Gerencie as turmas, registre presenças e organize os voluntários.</p>
+                        <div class="button-group">
+                            <a href="../login/login.html" class="btn btn-outline">ACESSAR PAINEL</a>
+                            <a href="../cadastro-coordenador/cadastro-coordenador.html" class="btn btn-secondary">CRIAR CONTA</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <p>Desenvolvido por Brenda Beatriz Cristaldo, Giovana Kaori, Vitória Millnitz e Thaisse Kirian Veiga.</p>
+        <p>Alunas de Engenharia de Software (Oficina de Integração 2) na UTFPR-CP - 2025</p>
+    </footer>
+
+</body>
+</html>

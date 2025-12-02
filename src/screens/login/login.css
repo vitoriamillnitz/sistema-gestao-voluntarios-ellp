@@ -108,27 +108,29 @@ input[type="password"]:focus {
     background-color: #e56a00; /* Laranja mais escuro no hover */
 }
 
-/* Links de Recuperação/Cadastro */
+/* Links de Recuperação/Cadastro - ATUALIZADO */
 .links {
     margin-top: 25px;
     font-size: 0.9rem;
     color: #888;
+    
+    /* Configuração Flexbox para coluna */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaço entre cada link */
+    align-items: center; /* Centraliza horizontalmente */
 }
 
 .links a {
     color: var(--color-primary); /* Links em Roxo */
     text-decoration: none;
     transition: color 0.3s ease;
+    /* Remove display inline-block se necessário, mas flexbox no pai já resolve */
 }
 
 .links a:hover {
     text-decoration: underline;
     color: #4933a6;
-}
-
-.links span {
-    margin: 0 10px;
-    color: #ccc;
 }
 
 /* Mensagem de Erro */
