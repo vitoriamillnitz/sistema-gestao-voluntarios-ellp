@@ -1,151 +1,150 @@
+// ======================================================
+// 1. IMPORTAÇÕES DO FIREBASE
+// ======================================================
+import { auth, db } from '../../firebase/config';
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    // =================================================================
-    // 1. MOCK DATA E SIMULAÇÃO DE USUÁRIO LOGADO
-    // =================================================================
-    const loggedInCoordenadorId = 'c01';
-    let mockCoordenadores = [
-        { id: 'c01', nome: 'Brenda Beatriz', departamento: 'Engenharia de Software', email: 'brenda.b@utfpr.edu.br' }
-    ];
-
-    // Variável para guardar os dados originais ao entrar no modo de edição
-    let originalData = {};
-
-    // =================================================================
-    // 2. SELEÇÃO DOS ELEMENTOS DO HTML
-    // =================================================================
+    // ======================================================
+    // 2. SELEÇÃO DE ELEMENTOS
+    // ======================================================
     const form = document.getElementById('perfil-coordenador-form');
     const nomeInput = document.getElementById('nome');
     const departamentoInput = document.getElementById('departamento');
     const emailInput = document.getElementById('email');
+    
+    // Campos de senha (Opcionais/Desativados na lógica simples)
     const novaSenhaInput = document.getElementById('nova-senha');
     const confirmarSenhaInput = document.getElementById('confirmar-senha');
 
     const btnEditar = document.getElementById('btn-editar');
     const btnSalvar = document.getElementById('btn-salvar');
     const btnCancelar = document.getElementById('btn-cancelar');
-    
-    // NOVO: Seleção do botão de Logout
     const logoutBtn = document.getElementById('logout-btn');
 
+    let currentUser = null;
+    let originalData = {}; // Para restaurar ao cancelar
 
-    // =================================================================
-    // 3. FUNÇÕES DE CONTROLE DE MODO (VISUALIZAÇÃO/EDIÇÃO)
-    // =================================================================
+    // ======================================================
+    // 3. AUTENTICAÇÃO E CARREGAMENTO
+    // ======================================================
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            currentUser = user;
+            await carregarDados();
+        } else {
+            window.location.href = '../login/login.html';
+        }
+    });
 
+    const carregarDados = async () => {
+        try {
+            const docRef = doc(db, "coordenadores", currentUser.uid);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                
+                // Preenche os campos
+                nomeInput.value = data.nome || '';
+                departamentoInput.value = data.departamento || '';
+                emailInput.value = data.email || currentUser.email;
+
+                // Guarda estado original
+                originalData = {
+                    nome: nomeInput.value,
+                    departamento: departamentoInput.value
+                };
+            } else {
+                console.error("Documento do coordenador não encontrado!");
+            }
+        } catch (error) {
+            console.error("Erro ao carregar perfil:", error);
+            alert("Erro ao carregar seus dados.");
+        }
+    };
+
+    // ======================================================
+    // 4. MODOS DE VISUALIZAÇÃO / EDIÇÃO
+    // ======================================================
     const entrarModoEdicao = () => {
-        // Guarda os valores atuais para o caso de o usuário cancelar
-        originalData = {
-            nome: nomeInput.value,
-            departamento: departamentoInput.value,
-        };
-
-        // Habilita os campos para edição (email não é editável)
         nomeInput.disabled = false;
         departamentoInput.disabled = false;
-        novaSenhaInput.disabled = false;
-        confirmarSenhaInput.disabled = false;
-
-        // Alterna a visibilidade dos botões
+        // Email não editável
+        
+        // Exibe botões de ação
         btnEditar.style.display = 'none';
         btnSalvar.style.display = 'inline-block';
         btnCancelar.style.display = 'inline-block';
     };
 
     const sairModoEdicao = () => {
-        // Desabilita todos os campos
         nomeInput.disabled = true;
         departamentoInput.disabled = true;
-        novaSenhaInput.disabled = true;
-        confirmarSenhaInput.disabled = true;
-
-        // Limpa os campos de senha por segurança
-        novaSenhaInput.value = '';
-        confirmarSenhaInput.value = '';
-
-        // Alterna a visibilidade dos botões de volta ao estado inicial
+        
+        // Esconde botões de ação
         btnEditar.style.display = 'inline-block';
         btnSalvar.style.display = 'none';
         btnCancelar.style.display = 'none';
     };
-    
-    // =================================================================
-    // 4. LÓGICA DE CARREGAMENTO E EVENTOS
-    // =================================================================
 
-    // Carrega os dados iniciais do coordenador logado
-    const carregarDados = () => {
-        const coordenador = mockCoordenadores.find(c => c.id === loggedInCoordenadorId);
-        if (coordenador) {
-            nomeInput.value = coordenador.nome;
-            departamentoInput.value = coordenador.departamento;
-            emailInput.value = coordenador.email;
-        }
-    };
-
-    // Evento para o botão "Editar Dados"
+    // Listeners de botões
     btnEditar.addEventListener('click', entrarModoEdicao);
-    
-    // Evento para o botão "Cancelar"
+
     btnCancelar.addEventListener('click', () => {
-        // Restaura os valores originais
+        // Restaura valores
         nomeInput.value = originalData.nome;
         departamentoInput.value = originalData.departamento;
-        // Sai do modo de edição
         sairModoEdicao();
     });
 
-    // Evento para o formulário (botão "Salvar Alterações")
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
+    // ======================================================
+    // 5. SALVAR DADOS (UPDATE)
+    // ======================================================
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-        const novaSenha = novaSenhaInput.value;
-        const confirmarSenha = confirmarSenhaInput.value;
+        // Feedback visual
+        const originalBtnText = btnSalvar.innerHTML;
+        btnSalvar.textContent = "Salvando...";
+        btnSalvar.disabled = true;
 
-        // Validação da senha (só se o campo nova senha foi preenchido)
-        if (novaSenha) {
-            if (novaSenha !== confirmarSenha) {
-                alert('As senhas não coincidem!');
-                return;
-            }
-            // Validação de segurança (o seu requisito original era maior, mas 6 é um bom mínimo)
-            if (novaSenha.length < 6) {
-                alert('A nova senha deve ter no mínimo 6 caracteres.');
-                return;
-            }
-            // Lógica para alterar a senha viria aqui
-            console.log('Simulando alteração de senha...');
+        try {
+            const docRef = doc(db, "coordenadores", currentUser.uid);
+
+            // Atualiza no Firestore
+            await updateDoc(docRef, {
+                nome: nomeInput.value,
+                departamento: departamentoInput.value
+            });
+
+            // Atualiza dados originais
+            originalData = {
+                nome: nomeInput.value,
+                departamento: departamentoInput.value
+            };
+
+            alert("Perfil atualizado com sucesso!");
+            sairModoEdicao();
+
+        } catch (error) {
+            console.error("Erro ao atualizar:", error);
+            alert("Erro ao salvar alterações.");
+        } finally {
+            btnSalvar.innerHTML = originalBtnText;
+            btnSalvar.disabled = false;
         }
-
-        // Atualiza os dados no array mock
-        const index = mockCoordenadores.findIndex(c => c.id === loggedInCoordenadorId);
-        if (index !== -1) {
-            mockCoordenadores[index].nome = nomeInput.value;
-            mockCoordenadores[index].departamento = departamentoInput.value;
-        }
-
-        console.log('Dados atualizados:', mockCoordenadores[index]);
-        alert('Dados salvos com sucesso!');
-
-        // Retorna para o modo de visualização
-        sairModoEdicao();
     });
-    
-    // NOVO: Lógica do botão de Sair (Funcionalidade de Logout)
+
+    // ======================================================
+    // 6. LOGOUT
+    // ======================================================
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            alert('Logout simulado! Redirecionando para a página de login.');
-            // Redirecionamento para a página de login
-            window.location.href = '../login/login.html'; 
+        logoutBtn.addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = '../login/login.html';
         });
     }
-
-
-    // =================================================================
-    // 5. EXECUÇÃO INICIAL
-    // =================================================================
-    carregarDados();
-    // Garante que a página inicie em modo visualização
-    sairModoEdicao(); 
-
 });

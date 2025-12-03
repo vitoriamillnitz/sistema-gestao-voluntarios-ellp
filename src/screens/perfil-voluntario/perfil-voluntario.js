@@ -1,20 +1,15 @@
+// ======================================================
+// 1. IMPORTAÇÕES DO FIREBASE
+// ======================================================
+import { auth, db } from '../../firebase/config';
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    // =================================================================
-    // 1. MOCK DATA E SIMULAÇÃO DE USUÁRIO LOGADO
-    // =================================================================
-    const loggedInVoluntarioId = 'v01'; // Simulando que a Giovana está logada
-    let mockVoluntarios = [
-        { id: 'v01', nome: 'Brenda Beatriz', ra: 'a234567', curso: 'Engenharia de Software', periodo: 8, email: 'brenda.b@alunos.utfpr.edu.br', telefone: '(44) 91111-2222', status: 'Ativo' },
-        { id: 'v02', nome: 'Giovana Kaori', ra: 'g765432', curso: 'Engenharia de Software', periodo: 8, email: 'giovana.k@alunos.utfpr.edu.br', telefone: '(43) 93333-4444', status: 'Ativo' },
-        { id: 'v03', nome: 'Vitória Millnitz', ra: 'v543210', curso: 'Ciência da Computação', periodo: 6, email: 'vitoria.m@alunos.utfpr.edu.br', telefone: '(45) 95555-6666', status: 'Inativo' },
-    ];
-
-    let originalData = {};
-
-    // =================================================================
-    // 2. SELEÇÃO DOS ELEMENTOS DO HTML
-    // =================================================================
+    // ======================================================
+    // 2. SELEÇÃO DE ELEMENTOS
+    // ======================================================
     const form = document.getElementById('perfil-voluntario-form');
     const nomeInput = document.getElementById('nome');
     const raInput = document.getElementById('ra');
@@ -28,61 +23,80 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCancelar = document.getElementById('btn-cancelar');
     const logoutBtn = document.getElementById('logout-btn');
 
-    // =================================================================
-    // 3. FUNÇÕES DE CONTROLE DE MODO (VISUALIZAÇÃO/EDIÇÃO)
-    // =================================================================
+    let currentUser = null;
+    let originalData = {};
 
+    // ======================================================
+    // 3. AUTENTICAÇÃO E CARREGAMENTO
+    // ======================================================
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            currentUser = user;
+            await carregarDados();
+        } else {
+            window.location.href = '../login/login.html';
+        }
+    });
+
+    const carregarDados = async () => {
+        try {
+            // Busca na coleção VOLUNTARIOS
+            const docRef = doc(db, "voluntarios", currentUser.uid);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                
+                // Preenche campos
+                nomeInput.value = data.nome || '';
+                raInput.value = data.ra || '';
+                cursoInput.value = data.curso || '';
+                periodoInput.value = data.periodo || '';
+                emailInput.value = data.email || currentUser.email;
+                telefoneInput.value = data.telefone || '';
+
+                // Guarda estado original (apenas campos editáveis)
+                originalData = {
+                    nome: nomeInput.value,
+                    curso: cursoInput.value,
+                    periodo: periodoInput.value,
+                    telefone: telefoneInput.value
+                };
+            }
+        } catch (error) {
+            console.error("Erro ao carregar perfil:", error);
+        }
+    };
+
+    // ======================================================
+    // 4. MODOS DE VISUALIZAÇÃO / EDIÇÃO
+    // ======================================================
     const entrarModoEdicao = () => {
-        // Guarda os valores atuais para o caso de cancelamento
-        originalData = {
-            nome: nomeInput.value,
-            curso: cursoInput.value,
-            periodo: periodoInput.value,
-            telefone: telefoneInput.value,
-        };
-
-        // Habilita campos editáveis (RA e E-mail geralmente não são)
+        // Habilita campos (RA e Email geralmente não mudam fácil)
         nomeInput.disabled = false;
         cursoInput.disabled = false;
         periodoInput.disabled = false;
         telefoneInput.disabled = false;
-
-        // Alterna a visibilidade dos botões
+        
         btnEditar.style.display = 'none';
         btnSalvar.style.display = 'inline-block';
         btnCancelar.style.display = 'inline-block';
     };
 
     const sairModoEdicao = () => {
-        // Desabilita todos os campos
-        Object.values(form.elements).forEach(el => el.disabled = true);
+        // Desabilita tudo
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => input.disabled = true);
 
-        // Alterna a visibilidade dos botões de volta ao estado inicial
         btnEditar.style.display = 'inline-block';
         btnSalvar.style.display = 'none';
         btnCancelar.style.display = 'none';
     };
-    
-    // =================================================================
-    // 4. LÓGICA DE CARREGAMENTO E EVENTOS
-    // =================================================================
-
-    const carregarDados = () => {
-        const voluntario = mockVoluntarios.find(v => v.id === loggedInVoluntarioId);
-        if (voluntario) {
-            nomeInput.value = voluntario.nome;
-            raInput.value = voluntario.ra;
-            cursoInput.value = voluntario.curso;
-            periodoInput.value = voluntario.periodo;
-            emailInput.value = voluntario.email;
-            telefoneInput.value = voluntario.telefone || ''; // Usa '' se não houver telefone
-        }
-    };
 
     btnEditar.addEventListener('click', entrarModoEdicao);
-    
+
     btnCancelar.addEventListener('click', () => {
-        // Restaura os valores originais
+        // Restaura
         nomeInput.value = originalData.nome;
         cursoInput.value = originalData.curso;
         periodoInput.value = originalData.periodo;
@@ -90,31 +104,53 @@ document.addEventListener('DOMContentLoaded', () => {
         sairModoEdicao();
     });
 
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
+    // ======================================================
+    // 5. SALVAR DADOS (UPDATE)
+    // ======================================================
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-        // Atualiza os dados no array mock
-        const index = mockVoluntarios.findIndex(v => v.id === loggedInVoluntarioId);
-        if (index !== -1) {
-            mockVoluntarios[index].nome = nomeInput.value;
-            mockVoluntarios[index].curso = cursoInput.value;
-            mockVoluntarios[index].periodo = periodoInput.value;
-            mockVoluntarios[index].telefone = telefoneInput.value;
+        const originalBtnText = btnSalvar.innerHTML;
+        btnSalvar.textContent = "Salvando...";
+        btnSalvar.disabled = true;
+
+        try {
+            const docRef = doc(db, "voluntarios", currentUser.uid);
+
+            await updateDoc(docRef, {
+                nome: nomeInput.value,
+                curso: cursoInput.value,
+                periodo: periodoInput.value,
+                telefone: telefoneInput.value
+            });
+
+            // Atualiza cache local
+            originalData = {
+                nome: nomeInput.value,
+                curso: cursoInput.value,
+                periodo: periodoInput.value,
+                telefone: telefoneInput.value
+            };
+
+            alert("Dados salvos com sucesso!");
+            sairModoEdicao();
+
+        } catch (error) {
+            console.error("Erro ao atualizar:", error);
+            alert("Erro ao salvar dados.");
+        } finally {
+            btnSalvar.innerHTML = originalBtnText;
+            btnSalvar.disabled = false;
         }
-
-        console.log('Dados do voluntário atualizados:', mockVoluntarios[index]);
-        alert('Dados salvos com sucesso!');
-
-        sairModoEdicao();
     });
 
-    logoutBtn.addEventListener('click', () => {
-        alert('Logout simulado! Redirecionando para a página de login.');
-        window.location.href = '../login/login.html'; // Ajuste o caminho se necessário
-    });
-
-    // =================================================================
-    // 5. EXECUÇÃO INICIAL
-    // =================================================================
-    carregarDados();
+    // ======================================================
+    // 6. LOGOUT
+    // ======================================================
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = '../login/login.html';
+        });
+    }
 });
