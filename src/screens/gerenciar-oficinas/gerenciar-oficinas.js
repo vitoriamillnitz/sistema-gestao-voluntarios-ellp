@@ -1,7 +1,7 @@
 // ======================================================
 // 1. IMPORTAÇÕES
 // ======================================================
-import { auth, db } from '../../firebase/firebase-config.js';
+import { auth, db } from '../../firebase/config.js';
 import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 

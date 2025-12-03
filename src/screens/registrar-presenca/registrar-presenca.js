@@ -1,157 +1,209 @@
-/**
- * Script da página de Registro de Presença.
- * Desenvolvido por: [Seu Nome]
- * Data: 29/09/2025
- * * Funcionalidades:
- * - Carrega a oficina correta com base no ID da URL.
- * - Exibe a lista de voluntários ativos.
- * - Pré-seleciona os voluntários que já possuem presença registrada.
- * - Permite marcar/desmarcar todos os voluntários de uma vez.
- * - Salva o estado atual das presenças.
- */
+// ======================================================
+// 1. IMPORTAÇÕES DO FIREBASE
+// ======================================================
+import { auth, db } from '../../firebase/config.js';
+import { collection, getDocs, getDoc, doc, addDoc, deleteDoc, query, where, updateDoc, increment, writeBatch } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 
-// Garante que o script só será executado após o carregamento completo do HTML.
 document.addEventListener('DOMContentLoaded', () => {
 
-    // =================================================================
-    // 1. DADOS MOCADOS (MOCK DATA)
-    // =================================================================
-    const mockVoluntarios = [
-        { id: 'v01', nome: 'Brenda Beatriz', ra: 'a234567', status: 'Ativo' },
-        { id: 'v02', nome: 'Giovana Kaori', ra: 'g765432', status: 'Ativo' },
-        { id: 'v03', nome: 'Vitória Millnitz', ra: 'v543210', status: 'Inativo' },
-        { id: 'v04', nome: 'Thaisse Kirian', ra: 't112233', status: 'Ativo' },
-    ];
-    const mockOficinas = [
-        { id: 'o01', nome: 'Lógica com Blocos', data: '2025-10-25', cargaHoraria: 4 },
-        { id: 'o02', nome: 'Introdução a HTML/CSS', data: '2025-11-08', cargaHoraria: 6 },
-    ];
-    // Usamos 'let' pois esta lista será modificada ao salvar as presenças.
-    let mockParticipacoes = [
-        { voluntarioId: 'v01', oficinaId: 'o01' },
-        { voluntarioId: 'v02', oficinaId: 'o01' },
-    ];
-
-    // =================================================================
-    // 2. SELEÇÃO DOS ELEMENTOS E LÓGICA INICIAL
-    // =================================================================
-
-    // Seleção dos principais elementos da página com os quais vamos interagir.
+    // ======================================================
+    // 2. SELEÇÃO DE ELEMENTOS
+    // ======================================================
     const nomeOficinaEl = document.getElementById('nome-oficina');
-    const listaPresencaUl = document.querySelector('.lista-presenca');
-    const marcarTodosCheckbox = document.getElementById('marcar-todos');
-    const presencaForm = document.getElementById('presenca-form');
-    
-    // NOVO: Seleção do botão de Logout (Ele está na estrutura do menu lateral)
+    const form = document.getElementById('presenca-form');
+    const listaVoluntariosEl = document.querySelector('.lista-presenca');
+    const checkboxMarcarTodos = document.getElementById('marcar-todos');
     const logoutBtn = document.getElementById('logout-btn');
 
-    // Pega os parâmetros da URL (ex: ?id=o01) para saber de qual oficina se trata.
     const urlParams = new URLSearchParams(window.location.search);
-    // Extrai o valor do parâmetro 'id'.
     const oficinaId = urlParams.get('id');
 
-    // Busca o objeto completo da oficina atual no nosso array de mock data.
-    const oficinaAtual = mockOficinas.find(o => o.id === oficinaId);
-
-    // Validação de segurança: se a oficina não for encontrada, exibe uma mensagem de erro e para a execução.
-    if (!oficinaAtual) {
-        document.querySelector('.container').innerHTML = '<h1>Oficina não encontrada!</h1><p>Verifique o link e tente novamente.</p>';
-        return;
-    }
-
-    // =================================================================
-    // 3. FUNÇÕES DE RENDERIZAÇÃO
-    // =================================================================
+    let oficinaAtual = null;
+    let voluntariosAtivos = [];
     
-    /**
-     * Responsável por popular a página com os dados da oficina e a lista de voluntários.
-     * Atualiza o título e gera a lista de checkboxes com base nos voluntários ativos.
-     */
+    // MUDANÇA: Agora guardamos um mapa { voluntarioId: presencaDocId }
+    // Isso nos permite saber QUAL documento deletar se desmarcarem
+    let mapaPresencasExistentes = {}; 
+
+    // ======================================================
+    // 3. CARREGAR DADOS
+    // ======================================================
+    const carregarDados = async () => {
+        if (!oficinaId) {
+            alert("Erro: Nenhuma oficina selecionada.");
+            window.location.href = '../gerenciar-oficinas/gerenciar-oficinas.html';
+            return;
+        }
+
+        try {
+            // A. Buscar Oficina
+            const oficinaRef = doc(db, "oficinas", oficinaId);
+            const oficinaSnap = await getDoc(oficinaRef);
+
+            if (!oficinaSnap.exists()) {
+                alert("Oficina não encontrada.");
+                return;
+            }
+            oficinaAtual = oficinaSnap.data();
+            nomeOficinaEl.textContent = oficinaAtual.nome;
+
+            // B. Buscar Voluntários Ativos
+            const qVoluntarios = query(collection(db, "voluntarios"), where("status", "==", "ativo"));
+            const snapVoluntarios = await getDocs(qVoluntarios);
+            
+            voluntariosAtivos = [];
+            snapVoluntarios.forEach(doc => {
+                voluntariosAtivos.push({ id: doc.id, ...doc.data() });
+            });
+
+            // C. Buscar Presenças Já Registradas (Mapear ID -> Documento)
+            const qPresencas = query(collection(db, "presencas"), where("oficinaId", "==", oficinaId));
+            const snapPresencas = await getDocs(qPresencas);
+            
+            mapaPresencasExistentes = {};
+            snapPresencas.forEach(doc => {
+                const dados = doc.data();
+                // Guarda o ID do documento da presença vinculado ao ID do voluntário
+                mapaPresencasExistentes[dados.voluntarioId] = doc.id;
+            });
+
+            renderizarLista();
+
+        } catch (error) {
+            console.error("Erro ao carregar dados:", error);
+            alert("Erro ao carregar lista.");
+        }
+    };
+
+    // ======================================================
+    // 4. RENDERIZAR LISTA
+    // ======================================================
     const renderizarLista = () => {
-        // Atualiza o título <h1> com o nome da oficina encontrada.
-        nomeOficinaEl.textContent = oficinaAtual.nome;
-        
-        // Limpa a lista de presenças para evitar duplicatas ao re-renderizar.
-        listaPresencaUl.innerHTML = '';
-        
-        // Cria um array contendo apenas os IDs dos voluntários que já possuem presença registrada para esta oficina.
-        const idsPresentes = mockParticipacoes
-            .filter(p => p.oficinaId === oficinaId)
-            .map(p => p.voluntarioId);
+        listaVoluntariosEl.innerHTML = '';
 
-        // Filtra a lista de voluntários para exibir apenas aqueles com status 'Ativo'.
-        const voluntariosAtivos = mockVoluntarios.filter(v => v.status === 'Ativo');
-        
-        // Itera sobre cada voluntário ativo para criar um item na lista.
-        voluntariosAtivos.forEach(voluntario => {
-            // Verifica se o voluntário atual já está na lista de presentes.
-            const isPresente = idsPresentes.includes(voluntario.id);
+        if (voluntariosAtivos.length === 0) {
+            listaVoluntariosEl.innerHTML = '<p style="padding:10px">Nenhum voluntário ativo.</p>';
+            return;
+        }
+
+        voluntariosAtivos.forEach(vol => {
+            // Verifica se existe no mapa
+            const isPresente = !!mapaPresencasExistentes[vol.id];
+            
             const li = document.createElement('li');
-
-            // Cria o HTML do item da lista, marcando o checkbox com 'checked' se o voluntário já estava presente.
             li.innerHTML = `
-                <input type="checkbox" id="vol-${voluntario.id}" name="voluntarios" value="${voluntario.id}" ${isPresente ? 'checked' : ''}>
-                <label for="vol-${voluntario.id}">${voluntario.nome} (${voluntario.ra})</label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="vol-${vol.id}" name="voluntarios" value="${vol.id}" 
+                           ${isPresente ? 'checked' : ''}>
+                    <label for="vol-${vol.id}">
+                        <strong>${vol.nome}</strong> 
+                        <br>
+                        <small>${vol.email} | RA: ${vol.ra || 'N/A'}</small>
+                    </label>
+                </div>
             `;
-            // Adiciona o novo item (<li>) à lista na página.
-            listaPresencaUl.appendChild(li);
+            listaVoluntariosEl.appendChild(li);
         });
     };
 
-    // =================================================================
-    // 4. EVENT LISTENERS (OUVINTES DE EVENTOS)
-    // =================================================================
-
-    // Adiciona o evento para o checkbox "Marcar/Desmarcar Todos".
-    marcarTodosCheckbox.addEventListener('change', (event) => {
-        const isChecked = event.target.checked;
-        // Pega todos os checkboxes da lista e define o estado deles para ser o mesmo do checkbox principal.
-        const checkboxes = listaPresencaUl.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = isChecked;
-        });
+    // ======================================================
+    // 5. MARCAR TODOS
+    // ======================================================
+    checkboxMarcarTodos.addEventListener('change', (e) => {
+        const checkboxes = document.querySelectorAll('input[name="voluntarios"]');
+        checkboxes.forEach(cb => cb.checked = e.target.checked);
     });
 
-    // Adiciona o evento de 'submit' ao formulário para salvar as presenças.
-    presencaForm.addEventListener('submit', (event) => {
-        event.preventDefault(); // Impede o recarregamento da página.
+    // ======================================================
+    // 6. SALVAR (ADICIONAR E REMOVER)
+    // ======================================================
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-        // Passo 1: Limpa o registro de presença *apenas para esta oficina*.
-        mockParticipacoes = mockParticipacoes.filter(p => p.oficinaId !== oficinaId);
+        const btnSubmit = form.querySelector('button[type="submit"]');
+        btnSubmit.textContent = "Processando...";
+        btnSubmit.disabled = true;
 
-        // Pega todos os checkboxes que estão atualmente marcados na tela.
-        const checkboxesMarcados = listaPresencaUl.querySelectorAll('input[type="checkbox"]:checked');
-        
-        // Passo 2: Para cada checkbox marcado, cria um novo registro de participação e o adiciona ao nosso array principal.
-        checkboxesMarcados.forEach(checkbox => {
-            // Verifica se o ID do checkbox principal não está sendo incluído acidentalmente
-            if (checkbox.id !== 'marcar-todos') {
-                mockParticipacoes.push({
-                    voluntarioId: checkbox.value,
-                    oficinaId: oficinaId,
-                });
+        try {
+            const batch = writeBatch(db); // Lote de operações
+            let alteracoesCount = 0;
+
+            // Pega TODOS os checkboxes da tela
+            const checkboxes = document.querySelectorAll('input[name="voluntarios"]');
+
+            checkboxes.forEach(checkbox => {
+                const voluntarioId = checkbox.value;
+                const isChecked = checkbox.checked;
+                
+                // Verifica se já estava salvo antes (usando nosso mapa)
+                const presencaDocId = mapaPresencasExistentes[voluntarioId];
+                const estavaPresente = !!presencaDocId;
+
+                // CASO 1: Não estava presente -> Marcou (ADICIONAR)
+                if (isChecked && !estavaPresente) {
+                    // Criar doc em 'presencas'
+                    const novaRef = doc(collection(db, "presencas"));
+                    batch.set(novaRef, {
+                        voluntarioId: voluntarioId,
+                        oficinaId: oficinaId,
+                        nomeOficina: oficinaAtual.nome,
+                        dataOficina: oficinaAtual.data,
+                        cargaHoraria: Number(oficinaAtual.cargaHoraria),
+                        dataRegistro: new Date().toISOString()
+                    });
+
+                    // Somar horas no voluntário
+                    const volRef = doc(db, "voluntarios", voluntarioId);
+                    batch.update(volRef, {
+                        horasAcumuladas: increment(Number(oficinaAtual.cargaHoraria))
+                    });
+                    
+                    alteracoesCount++;
+                }
+
+                // CASO 2: Estava presente -> Desmarcou (REMOVER)
+                else if (!isChecked && estavaPresente) {
+                    // Deletar doc em 'presencas' (usando o ID que guardamos no mapa)
+                    const presencaRef = doc(db, "presencas", presencaDocId);
+                    batch.delete(presencaRef);
+
+                    // Subtrair horas no voluntário
+                    const volRef = doc(db, "voluntarios", voluntarioId);
+                    batch.update(volRef, {
+                        horasAcumuladas: increment(-Number(oficinaAtual.cargaHoraria)) // Negativo para subtrair
+                    });
+
+                    alteracoesCount++;
+                }
+            });
+
+            if (alteracoesCount === 0) {
+                alert("Nenhuma alteração realizada.");
+                window.location.href = '../gerenciar-oficinas/gerenciar-oficinas.html';
+                return;
             }
-        });
 
-        console.log('Lista de presença atualizada:', mockParticipacoes);
-        alert('Presenças salvas com sucesso!');
-        
-        // Após salvar, redireciona o usuário de volta para a tela de gerenciamento.
-        window.location.href = '../gerenciar-oficinas/gerenciar-oficinas.html';
+            await batch.commit(); // Executa tudo
+
+            alert(`Alterações salvas com sucesso!`);
+            window.location.href = '../gerenciar-oficinas/gerenciar-oficinas.html';
+
+        } catch (error) {
+            console.error("Erro ao salvar:", error);
+            alert("Erro ao salvar presenças.");
+            btnSubmit.textContent = "Salvar Presenças";
+            btnSubmit.disabled = false;
+        }
     });
-    
-    // --- LÓGICA DE LOGOUT (NOVO) ---
+
+    // Logout
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            alert('Logout simulado! Redirecionando para a página de login.');
-            // Redirecionamento para a página de login
-            window.location.href = '../login/login.html'; 
+        logoutBtn.addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = '../login/login.html';
         });
     }
 
-    // =================================================================
-    // 5. EXECUÇÃO INICIAL
-    // =================================================================
-    // Chama a função de renderização uma vez no início para popular a página assim que ela for carregada.
-    renderizarLista();
+    carregarDados();
 });
