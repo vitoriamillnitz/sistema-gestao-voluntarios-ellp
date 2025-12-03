@@ -1,49 +1,76 @@
+// ======================================================
+// 1. IMPORTAÇÕES DO FIREBASE
+// ======================================================
+import { auth } from '../../firebase/config';
+import { sendPasswordResetEmail } from "firebase/auth";
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 1. SELECIONAR OS ELEMENTOS DO HTML
+    // ======================================================
+    // 2. SELECIONAR OS ELEMENTOS DO HTML
+    // ======================================================
     const form = document.getElementById('recuperar-senha-form');
     const emailInput = document.getElementById('email');
     const messageDiv = document.getElementById('recuperar-message');
     const submitButton = form.querySelector('.btn');
 
-    // 2. ADICIONAR O "OUVINTE" DE SUBMISSÃO AO FORMULÁRIO
-    form.addEventListener('submit', (event) => {
-        // Impede o recarregamento padrão da página
+    // ======================================================
+    // 3. OUVINTE DE SUBMISSÃO
+    // ======================================================
+    form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        // Limpa mensagens e estilos de tentativas anteriores
+        // Limpa mensagens anteriores
         messageDiv.textContent = '';
-        messageDiv.style.color = ''; // Reseta a cor
+        messageDiv.className = 'error-text'; // Reseta classe se houver CSS específico
+        messageDiv.style.color = '';
 
-        // 3. CAPTURAR O VALOR DO CAMPO DE E-MAIL
         const email = emailInput.value.trim();
 
-        // 4. VALIDAÇÃO BÁSICA
+        // Validação básica
         if (email === '') {
             messageDiv.textContent = 'Por favor, informe seu e-mail.';
-            messageDiv.style.color = '#d93025'; // Cor de erro
+            messageDiv.style.color = '#d93025';
             return;
         }
 
-        // --- PONTO DE INTEGRAÇÃO COM O FIREBASE ---
-        // Aqui, no futuro, chamaremos a função `sendPasswordResetEmail` do Firebase.
-        // Por enquanto, vamos apenas simular o sucesso.
-        
-        console.log(`Simulando envio de e-mail de recuperação para: ${email}`);
-        
-        // Exibe uma mensagem de sucesso para o usuário
-        messageDiv.textContent = 'Se este e-mail estiver cadastrado, um link de recuperação será enviado em breve.';
-        messageDiv.style.color = '#1a73e8'; // Cor de sucesso/informação
-
-        // Desabilita o botão para evitar múltiplos cliques
+        // Bloqueia o botão para evitar cliques duplos
         submitButton.disabled = true;
-        
-        // Opcional: Limpa o campo de e-mail após o envio
-        emailInput.value = '';
-        
-        // Reabilita o botão após alguns segundos
-        setTimeout(() => {
+        submitButton.textContent = "Enviando...";
+
+        // ======================================================
+        // 4. INTEGRAÇÃO COM O FIREBASE
+        // ======================================================
+        try {
+            // Esta função envia o e-mail automaticamente se o usuário existir
+            await sendPasswordResetEmail(auth, email);
+
+            // Sucesso!
+            messageDiv.textContent = 'Se este e-mail estiver cadastrado, um link de recuperação foi enviado. Verifique sua caixa de entrada e spam.';
+            messageDiv.style.color = '#28a745'; // Verde sucesso
+            
+            // Limpa o campo
+            emailInput.value = '';
+
+        } catch (error) {
+            console.error("Erro ao recuperar senha:", error);
+            
+            // Tratamento de erros comuns
+            if (error.code === 'auth/invalid-email') {
+                messageDiv.textContent = 'O e-mail informado é inválido.';
+            } else if (error.code === 'auth/user-not-found') {
+                // Por segurança, muitas vezes é melhor mostrar a mesma mensagem de sucesso
+                // para não revelar quais e-mails estão cadastrados.
+                // Mas para debug/desenvolvimento, você pode querer saber:
+                messageDiv.textContent = 'E-mail não encontrado na base de dados.';
+            } else {
+                messageDiv.textContent = 'Erro ao enviar e-mail. Tente novamente mais tarde.';
+            }
+            messageDiv.style.color = '#d93025';
+        } finally {
+            // Restaura o botão após a operação
             submitButton.disabled = false;
-        }, 5000); // 5 segundos
+            submitButton.innerHTML = '<i class="fas fa-envelope"></i> Enviar Link de Recuperação';
+        }
     });
 });
